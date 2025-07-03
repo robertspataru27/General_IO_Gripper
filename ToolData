@@ -1,0 +1,37 @@
+{
+    "ToolName": "VGL",
+    "TCPDatas": [
+        {
+            "TCPNumber": 1,
+            "Name": "TCP_1",
+            "Point": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 146.85,
+                "A": 0.0,
+                "B": 0.0,
+                "C": 0.0
+            },
+            "actionToInitTool": "// actionToInitTool",
+            "actionToActuateTool": "// actionToActuateTool",
+            "actionToDeactuateTool": "// actionToDeactuateTool"
+        }
+    ],
+    "InertiaSectionData": {
+        "CogField": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "MassField": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "InertiaField": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}
