@@ -71,51 +71,15 @@ end
 local WaitStart = 0
 local WaitLenth = 16
 
-
-function GetValidUniqueChannels(channelNumbers, channelValues)
-    local validNumbers = {}
-    local validValues = {}
-    local seen = {}
-
-    for i = 1, #channelNumbers do
-        local num = channelNumbers[i]
-        local val = channelValues[i]
-
-        if seen[num] ~= nil then
-            if seen[num] ~= val then
-                error(string.format(
-                    "Error: Channel #%d is assigned multiple conflicting values (%d and %d). Please ensure each channel is only assigned one value.",
-                    num, seen[num], val
-                ))
-            end
-            -- If value matches, skip (already added)
-        else
-            table.insert(validNumbers, num)
-            table.insert(validValues, val)
-            seen[num] = val
-        end
-    end
-
-    return validNumbers, validValues
-end
-
 function WriteToPTableForRobotCodeGen()
-	local valid_DO_Close_N_UI, valid_DO_Close_V_UI = GetValidUniqueChannels(Robot_DO_Close_N_UI, Robot_DO_Close_V_UI)
-    local valid_DO_Open_N_UI, valid_DO_Open_V_UI = GetValidUniqueChannels(Robot_DO_Open_N_UI, Robot_DO_Open_V_UI)
-    local valid_DI_Done_N_UI, valid_DI_Done_V_UI = GetValidUniqueChannels(Robot_DI_Done_N_UI, Robot_DI_Done_V_UI)
-
-    for i = 1, #valid_DO_Close_N_UI do
-        PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", valid_DO_Close_N_UI[i]);
-        PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", valid_DO_Close_V_UI[i]);
-    end
-    for i = 1, #valid_DO_Open_N_UI do
-        PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", valid_DO_Open_N_UI[i]);
-        PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", valid_DO_Open_V_UI[i]);
-    end
-    for i = 1, #valid_DI_Done_N_UI do
-        PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", valid_DI_Done_N_UI[i]);
-        PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", valid_DI_Done_V_UI[i]);
-    end
+	for i = 1, 16 do
+		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i]);
+		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i]);
+		PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", Robot_DO_Open_N_UI[i]);
+		PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", Robot_DO_Open_V_UI[i]);
+		PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", Robot_DI_Done_N_UI[i]);
+		PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i]);
+	end
 
 	PTable:set_Item("Robot_DI_Done_Timeout_UI", Robot_DI_Done_Timeout_UI);
 	PTable:set_Item("Robot_DetectionDelay_UI", Robot_DetectionDelay_UI);
@@ -125,7 +89,6 @@ function WriteToPTableForRobotCodeGen()
 	PTable:set_Item("WaitStart", WaitStart);
 	PTable:set_Item("WaitLenth", WaitLenth);
 end
-
 
 
 -- Build strings for all 16 DOUT commands for closing and opening the gripper
