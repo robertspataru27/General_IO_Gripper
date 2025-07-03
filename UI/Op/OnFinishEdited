@@ -71,23 +71,32 @@ end
 local WaitStart = 0
 local WaitLenth = 16
 
+
 function GetValidUniqueChannels(channelNumbers, channelValues)
-	local validNumbers = {}
-	local validValues = {}
-	local seen = {}
+    local validNumbers = {}
+    local validValues = {}
+    local seen = {}
 
-	for i = 1, #channelNumbers do
-		local num = channelNumbers[i]
-		local val = channelValues[i]
+    for i = 1, #channelNumbers do
+        local num = channelNumbers[i]
+        local val = channelValues[i]
 
-		if not seen[num] then
-			table.insert(validNumbers, num)
-			table.insert(validValues, val)
-			seen[num] = true
-		end
-	end
+        if seen[num] ~= nil then
+            if seen[num] ~= val then
+                error(string.format(
+                    "Error: Channel #%d is assigned multiple conflicting values (%d and %d). Please ensure each channel is only assigned one value.",
+                    num, seen[num], val
+                ))
+            end
+            -- If value matches, skip (already added)
+        else
+            table.insert(validNumbers, num)
+            table.insert(validValues, val)
+            seen[num] = val
+        end
+    end
 
-	return validNumbers, validValues
+    return validNumbers, validValues
 end
 
 function WriteToPTableForRobotCodeGen()
