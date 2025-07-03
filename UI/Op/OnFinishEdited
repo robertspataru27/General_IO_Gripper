@@ -71,15 +71,42 @@ end
 local WaitStart = 0
 local WaitLenth = 16
 
-function WriteToPTableForRobotCodeGen()
-	for i = 1, 16 do
-		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i]);
-		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i]);
-		PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", Robot_DO_Open_N_UI[i]);
-		PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", Robot_DO_Open_V_UI[i]);
-		PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", Robot_DI_Done_N_UI[i]);
-		PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i]);
+function GetValidUniqueChannels(channelNumbers, channelValues)
+	local validNumbers = {}
+	local validValues = {}
+	local seen = {}
+
+	for i = 1, #channelNumbers do
+		local num = channelNumbers[i]
+		local val = channelValues[i]
+
+		if not seen[num] then
+			table.insert(validNumbers, num)
+			table.insert(validValues, val)
+			seen[num] = true
+		end
 	end
+
+	return validNumbers, validValues
+end
+
+function WriteToPTableForRobotCodeGen()
+	local valid_DO_Close_N_UI, valid_DO_Close_V_UI = GetValidUniqueChannels(Robot_DO_Close_N_UI, Robot_DO_Close_V_UI)
+    local valid_DO_Open_N_UI, valid_DO_Open_V_UI = GetValidUniqueChannels(Robot_DO_Open_N_UI, Robot_DO_Open_V_UI)
+    local valid_DI_Done_N_UI, valid_DI_Done_V_UI = GetValidUniqueChannels(Robot_DI_Done_N_UI, Robot_DI_Done_V_UI)
+
+    for i = 1, #valid_DO_Close_N_UI do
+        PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", valid_DO_Close_N_UI[i]);
+        PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", valid_DO_Close_V_UI[i]);
+    end
+    for i = 1, #valid_DO_Open_N_UI do
+        PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", valid_DO_Open_N_UI[i]);
+        PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", valid_DO_Open_V_UI[i]);
+    end
+    for i = 1, #valid_DI_Done_N_UI do
+        PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", valid_DI_Done_N_UI[i]);
+        PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", valid_DI_Done_V_UI[i]);
+    end
 
 	PTable:set_Item("Robot_DI_Done_Timeout_UI", Robot_DI_Done_Timeout_UI);
 	PTable:set_Item("Robot_DetectionDelay_UI", Robot_DetectionDelay_UI);
