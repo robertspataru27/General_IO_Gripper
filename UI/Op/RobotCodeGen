@@ -82,7 +82,8 @@ local closeCommands = ""
 local openCommands = ""
 
 -- Build the strings for checking if DO channels meet corresponding values
-local ifStatementCommands = ""
+local openIfStatementCommands = ""
+local closeIfStatementCommands = ""
 
 local whileStatementCommand = "GDIN(0, L=16)";
 
@@ -91,17 +92,21 @@ for key, value in pairs(globalToolTcps) do
     for i = 1, 16 do
         local closeNum = Robot_DO_Close_N_UI[i]
         local closeVal = Robot_DO_Close_V_UI[i]
-        closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
-
         local openNum = Robot_DO_Open_N_UI[i]
         local openVal = Robot_DO_Open_V_UI[i]
-        openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
+
+        if (closeVal ~= 2) then 
+            closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
+            openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
+        end
 
         
-        if i ~= 16 then
-            ifStatementCommands = ifStatementCommands .. string.format("GDOUT(%d) != %d ||", closeNum, closeVal)
-        else
-            ifStatementCommands = ifStatementCommands .. string.format("GDOUT(%d) != %d", closeNum, closeVal)
+        if (i ~= 16 and closeVal ~= 2) then
+            openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d ||", openNum, openVal)
+            closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d ||", closeNum, closeVal)
+        elseif (i == 16 and closeVal ~= 2) then
+            openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d", openNum, openVal)
+            closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d", closeNum, closeVal)
         end
 
     end
@@ -112,7 +117,7 @@ if (NotEqual_UI==false) then
         thisTool.SetActionToActuateTool( value.TCPNumber, [[
 
         WaitSS();
-        if(]] .. ifStatementCommands .. [[) {
+        if(]] .. closeIfStatementCommands .. [[) {
             ]] .. closeCommands .. [[
             WAIT(]] .. Robot_DetectionDelay_UI .. [[);
             WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLength..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
@@ -120,7 +125,7 @@ if (NotEqual_UI==false) then
     ]])
     thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
         WaitSS();
-        if(]] .. ifStatementCommands .. [[) {
+        if(]] .. openIfStatementCommands .. [[) {
             ]] .. openCommands .. [[
             WAIT(]] .. Robot_DetectionDelay_UI .. [[);
             WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLength..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
@@ -132,7 +137,7 @@ elseif (NotEqualDinNumber ~= 1) then
     for key, value in pairs(globalToolTcps) do
         thisTool.SetActionToActuateTool( value.TCPNumber, [[
             WaitSS();
-            if(]] .. ifStatementCommands .. [[) {
+            if(]] .. closeIfStatementCommands .. [[) {
                 ]] .. closeCommands .. [[
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 
@@ -149,7 +154,7 @@ elseif (NotEqualDinNumber ~= 1) then
             ]])
         thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
             WaitSS();
-            if(]] .. ifStatementCommands .. [[) {
+            if(]] .. openIfStatementCommands .. [[) {
                 ]] .. openCommands .. [[
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 toolTimeOut=100;
@@ -168,7 +173,7 @@ else
     for key, value in pairs(globalToolTcps) do
         thisTool.SetActionToActuateTool( value.TCPNumber, [[
                 WaitSS();
-                if(]] .. ifStatementCommands .. [[) {
+                if(]] .. closeIfStatementCommands .. [[) {
                     ]] .. closeCommands .. [[
                     WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                     

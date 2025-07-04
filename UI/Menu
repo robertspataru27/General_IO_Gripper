@@ -20,8 +20,8 @@
           "name": "ControlClose_value1",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
             "value": 1,
             "layoutSetting": null
@@ -42,8 +42,8 @@
           "name": "ControlClose_value2",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
             "value": 1,
             "layoutSetting": null
@@ -64,10 +64,10 @@
           "name": "ControlClose_value3",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -86,10 +86,10 @@
           "name": "ControlClose_value4",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -108,10 +108,10 @@
           "name": "ControlClose_value5",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -130,10 +130,10 @@
           "name": "ControlClose_value6",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -152,10 +152,10 @@
           "name": "ControlClose_value7",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -174,10 +174,10 @@
           "name": "ControlClose_value8",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -196,10 +196,10 @@
           "name": "ControlClose_value9",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -218,10 +218,10 @@
           "name": "ControlClose_value10",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -240,10 +240,10 @@
           "name": "ControlClose_value11",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -262,10 +262,10 @@
           "name": "ControlClose_value12",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -284,10 +284,10 @@
           "name": "ControlClose_value13",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -306,10 +306,10 @@
           "name": "ControlClose_value14",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -328,10 +328,10 @@
           "name": "ControlClose_value15",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -350,10 +350,10 @@
           "name": "ControlClose_value16",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         }
@@ -378,8 +378,8 @@
           "name": "ControlOpen_value1",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
             "value": 1,
             "layoutSetting": null
@@ -400,8 +400,8 @@
           "name": "ControlOpen_value2",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
             "value": 1,
             "layoutSetting": null
@@ -422,10 +422,10 @@
           "name": "ControlOpen_value3",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -444,10 +444,10 @@
           "name": "ControlOpen_value4",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -466,10 +466,10 @@
           "name": "ControlOpen_value5",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -488,10 +488,10 @@
           "name": "ControlOpen_value6",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -510,10 +510,10 @@
           "name": "ControlOpen_value7",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -532,10 +532,10 @@
           "name": "ControlOpen_value8",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -554,10 +554,10 @@
           "name": "ControlOpen_value9",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -576,10 +576,10 @@
           "name": "ControlOpen_value10",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -598,10 +598,10 @@
           "name": "ControlOpen_value11",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -620,10 +620,10 @@
           "name": "ControlOpen_value12",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -642,10 +642,10 @@
           "name": "ControlOpen_value13",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -664,10 +664,10 @@
           "name": "ControlOpen_value14",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -686,10 +686,10 @@
           "name": "ControlOpen_value15",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         },
@@ -708,10 +708,10 @@
           "name": "ControlOpen_value16",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H)",
-            "maxValue": 1,
+            "title": "Value (0: L, 1: H, 2: Don't Care)",
+            "maxValue": 2,
             "minValue": 0,
-            "value": 1,
+          "value": 2,
             "layoutSetting": null
           }
         }
