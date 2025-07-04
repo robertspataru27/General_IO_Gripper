@@ -31,21 +31,29 @@ CS.UnityEngine.Debug.Log(tag_name)
 
 -----------------------------------------Session for this page-------------------------------
 -- Create lists to hold values
+local Robot_DO_Close_E_UI = {} -- Enable/Disable for closing
 local Robot_DO_Close_N_UI = {}
 local Robot_DO_Close_V_UI = {}
+
+local Robot_DO_Open_E_UI = {} -- Enable/Disable for opening
 local Robot_DO_Open_N_UI = {}
 local Robot_DO_Open_V_UI = {}
+
+local Robot_DI_Done_E_UI = {} -- Enable/Disable for done feedback
 local Robot_DI_Done_N_UI = {}
 local Robot_DI_Done_V_UI = {}
 
 -- Populate the lists using loops
 for i = 1, 16 do
+	Robot_DO_Close_E_UI[i] = Instance:GetUiElementByName("ControlClose_enable" .. i).value
     Robot_DO_Close_N_UI[i] = Instance:GetUiElementByName("ControlClose_number" .. i).value
     Robot_DO_Close_V_UI[i] = Instance:GetUiElementByName("ControlClose_value" .. i).value
 
+	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
     Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
     Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
 
+	Robot_DI_Done_E_UI[i] = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
     Robot_DI_Done_N_UI[i] = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
     Robot_DI_Done_V_UI[i] = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
 end
@@ -54,15 +62,15 @@ local Robot_DI_Done_Timeout_UI=Instance:GetUiElementByName("TimeoutValue").value
 local Robot_DetectionDelay_UI=Instance:GetUiElementByName("DetectionDelay").value
 local NotEqual_UI = Instance:GetUiElementByName("NotEqual").value
 
-
 local WaitValue = 0
 local WaitMask = 0
 
 for i = 1, 16 do
+	local doneEnabled = Robot_DI_Done_E_UI[i]
     local doneNum = Robot_DI_Done_N_UI[i]
     local doneVal = Robot_DI_Done_V_UI[i]
 
-    if doneVal ~= 2 then
+    if doneEnabled == true then
         WaitValue = WaitValue + doneVal * 2 ^ doneNum
         WaitMask = WaitMask + 1 * 2 ^ doneNum
     end
@@ -73,10 +81,15 @@ local WaitLenth = 16
 
 function WriteToPTableForRobotCodeGen()
 	for i = 1, 16 do
+		PTable:set_Item("ControlClose_enable" .. i, Robot_DO_Close_E_UI[i]);
 		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i]);
 		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i]);
+
+		PTable:set_Item("ControlOpen_enable" .. i, Robot_DO_Open_E_UI[i]);
 		PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", Robot_DO_Open_N_UI[i]);
 		PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", Robot_DO_Open_V_UI[i]);
+
+		PTable:set_Item("FeedbackFinish_enable" .. i, Robot_DI_Done_E_UI[i]);
 		PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", Robot_DI_Done_N_UI[i]);
 		PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i]);
 	end
@@ -95,14 +108,20 @@ end
 local closeCommands = ""
 local openCommands = ""
 for i = 1, 16 do
+	local closeEnabled = Robot_DO_Close_E_UI[i]
 	local closeNum = Robot_DO_Close_N_UI[i]
 	local closeVal = Robot_DO_Close_V_UI[i]
-	closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
+	if closeEnabled == true then
+		closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
+	end
 
+	local openEnabled = Robot_DO_Open_E_UI[i]
 	local openNum = Robot_DO_Open_N_UI[i]
 	local openVal = Robot_DO_Open_V_UI[i]
-	openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
-end
+	if openEnabled == true then
+		openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
+	end
+
 
 local globalToolTcps = thisTool.GetSelectedToolTCPs();
 for key, value in pairs(globalToolTcps) do

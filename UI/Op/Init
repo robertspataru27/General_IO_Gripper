@@ -19,10 +19,13 @@ function WriteToPTableForRobotCodeGen()
 	local WaitLenth = 16
 
 	for i = 1, 16 do
+		local closeEnabled = Instance:GetUiElementByName("ControlClose_enable" .. i).value
 		local closeNum = Instance:GetUiElementByName("ControlClose_number" .. i).value
 		local closeVal = Instance:GetUiElementByName("ControlClose_value" .. i).value
+		local openEnabled = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
 		local openNum = Instance:GetUiElementByName("ControlOpen_number" .. i).value
 		local openVal = Instance:GetUiElementByName("ControlOpen_value" .. i).value
+		local doneEnabled = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
 		local doneNum = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
 		local doneVal = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
 
@@ -31,10 +34,13 @@ function WriteToPTableForRobotCodeGen()
 			WaitMask = WaitMask + 1 * 2 ^ doneNum;
 		end
 
+		PTable:set_Item("ControlClose_enable" .. i, closeEnabled);
 		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", closeNum);
 		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", closeVal);
+		PTable:set_Item("ControlOpen_enable" .. i, openEnabled);
 		PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", openNum);
 		PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", openVal);
+		PTable:set_Item("FeedbackFinish_enable" .. i, doneEnabled);
 		PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", doneNum);
 		PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", doneVal);
 

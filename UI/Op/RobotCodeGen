@@ -25,31 +25,17 @@ local thisTool = CS.ToolManagerLuaInterface
 local Instance = CS.ConfigurationMenu.ConfigurationMenuLuaInterface.Instance
 local PTable = Instance.parameterTable
 
-
+local Robot_DO_Close_E_UI = {} -- Enable/Disable for closing
 local Robot_DO_Close_N_UI = {}
 local Robot_DO_Close_V_UI = {}
+
+local Robot_DO_Open_E_UI = {} -- Enable/Disable for opening
 local Robot_DO_Open_N_UI = {}
 local Robot_DO_Open_V_UI = {}
+
+local Robot_DI_Done_E_UI = {} -- Enable/Disable for done feedback
 local Robot_DI_Done_N_UI = {}
 local Robot_DI_Done_V_UI = {}
-
--- Populate the lists using loop
-for i = 1, 16 do
-    Robot_DI_Done_N_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_N_UI")
-    Robot_DI_Done_V_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_V_UI")
-    Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI")
-    Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI")
-    Robot_DO_Open_N_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_N_UI")
-    Robot_DO_Open_V_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_V_UI")
-    if (Robot_DI_Done_V_UI[i] ~= 2) then -- Only add if doneVal is not 2
-        WaitValue = WaitValue + Robot_DI_Done_V_UI[i] * (2 ^ Robot_DI_Done_N_UI[i]);
-        WaitMask = WaitMask + 1 * (2 ^ Robot_DI_Done_N_UI[i]);
-    end
-end
-
-local Robot_DI_Done_Timeout_UI = PTable:get_Item("Robot_DI_Done_Timeout_UI")
-local NotEqual_UI = PTable:get_Item("NotEqual_UI")
-local Robot_DetectionDelay_UI = PTable:get_Item("Robot_DetectionDelay_UI")
 
 local WaitValue = 0
 local WaitMask = 0
@@ -57,21 +43,35 @@ local NotEqualValue=0
 local NotEqualDinNumber=0
 local UniqueDinNumbers = {}
 
-for i = 1, 16 do 
+-- Populate the lists using loop
+for i = 1, 16 do
+    Robot_DO_Close_E_UI[i] = PTable:get_Item("ControlClose_enable" .. i)
+    Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI")
+    Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI")
+
+    Robot_DO_Open_E_UI[i] = PTable:get_Item("ControlOpen_enable" .. i)
+    Robot_DO_Open_N_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_N_UI")
+    Robot_DO_Open_V_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_V_UI")
+
+    Robot_DI_Done_E_UI[i] = PTable:get_Item("FeedbackFinish_enable" .. i)
+    Robot_DI_Done_N_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_N_UI")
+    Robot_DI_Done_V_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_V_UI")
+
     local doneNum = Robot_DI_Done_N_UI[i]
     local doneVal = Robot_DI_Done_V_UI[i]
 
-    -- Check if the doneVal is not equal to 2 and if the doneNum is not already in UniqueDinNumbers
-    -- This ensures that we only add unique DIN numbers and their corresponding values
-    if (doneVal ~= 2 and doneNum ~= nil and not UniqueDinNumbers[doneNum]) then
-            UniqueDinNumbers[doneNum] = true
-            WaitMask = WaitMask + 1 * (2 ^ doneNum)
-            WaitValue = WaitValue + doneVal * (2 ^ doneNum)
-            NotEqualDinNumber = NotEqualDinNumber + 1
-            NotEqualValue = NotEqualValue + doneVal * (2 ^ doneNum)
+    if (Robot_DI_Done_E_UI[i] == true and not UniqueDinNumbers[doneNum]) then -- Only add if feedback finish enable is true and DI channel has not been used before
+        UniqueDinNumbers[doneNum] = true
+        WaitMask = WaitMask + 1 * (2 ^ doneNum)
+        WaitValue = WaitValue + doneVal * (2 ^ doneNum)
+        NotEqualDinNumber = NotEqualDinNumber + 1
+        NotEqualValue = NotEqualValue + doneVal * (2 ^ doneNum)
     end
 end
 
+local Robot_DI_Done_Timeout_UI = PTable:get_Item("Robot_DI_Done_Timeout_UI")
+local NotEqual_UI = PTable:get_Item("NotEqual_UI")
+local Robot_DetectionDelay_UI = PTable:get_Item("Robot_DetectionDelay_UI")
 
 local WaitStart = 0
 local WaitLength = 16
@@ -90,22 +90,30 @@ local whileStatementCommand = "GDIN(0, L=16)";
 for key, value in pairs(globalToolTcps) do
 
     for i = 1, 16 do
+        local closeEnabled = Robot_DO_Close_E_UI[i]
         local closeNum = Robot_DO_Close_N_UI[i]
         local closeVal = Robot_DO_Close_V_UI[i]
+        local openEnabled = Robot_DO_Open_E_UI[i]
         local openNum = Robot_DO_Open_N_UI[i]
         local openVal = Robot_DO_Open_V_UI[i]
 
-        if (closeVal ~= 2) then 
+        if (closeEnabled == true) then 
             closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
+        end
+
+        if(openEnabled == true) then 
             openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
         end
 
-        
-        if (i ~= 16 and closeVal ~= 2) then
+        if (i ~= 16 and openEnabled == true) then
             openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d ||", openNum, openVal)
-            closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d ||", closeNum, closeVal)
-        elseif (i == 16 and closeVal ~= 2) then
+        elseif (i == 16 and openEnabled == true) then
             openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d", openNum, openVal)
+        end
+
+        if (i ~= 16 and closeEnabled == true) then
+            closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d ||", closeNum, closeVal)
+        elseif (i == 16 and closeEnabled == true) then
             closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d", closeNum, closeVal)
         end
 

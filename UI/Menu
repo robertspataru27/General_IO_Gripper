@@ -6,6 +6,15 @@
       "groupTitle": "Grip",
       "uiElements": [
         {
+          "name": "ControlClose_enable1",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #1",
+            "value": true,
+            "layoutSetting": null
+          }
+        },
+        {
           "name": "ControlClose_number1",
           "elementType": "Int_Input",
           "elementDefinition": {
@@ -20,10 +29,19 @@
           "name": "ControlClose_value1",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
             "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable2",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #2",
+            "value": true,
             "layoutSetting": null
           }
         },
@@ -42,10 +60,19 @@
           "name": "ControlClose_value2",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
             "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable3",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #3",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -64,10 +91,19 @@
           "name": "ControlClose_value3",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable4",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #4",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -86,10 +122,19 @@
           "name": "ControlClose_value4",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable5",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #5",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -108,10 +153,19 @@
           "name": "ControlClose_value5",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable6",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #6",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -130,10 +184,19 @@
           "name": "ControlClose_value6",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable7",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #7",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -152,10 +215,19 @@
           "name": "ControlClose_value7",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable8",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #8",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -174,10 +246,19 @@
           "name": "ControlClose_value8",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable9",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #9",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -196,10 +277,19 @@
           "name": "ControlClose_value9",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable10",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #10",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -218,10 +308,19 @@
           "name": "ControlClose_value10",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable11",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #11",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -240,10 +339,19 @@
           "name": "ControlClose_value11",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable12",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #12",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -262,10 +370,19 @@
           "name": "ControlClose_value12",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable13",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #13",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -284,10 +401,19 @@
           "name": "ControlClose_value13",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable14",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #14",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -306,10 +432,19 @@
           "name": "ControlClose_value14",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable15",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #15",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -328,10 +463,19 @@
           "name": "ControlClose_value15",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlClose_enable16",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #16",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -350,10 +494,10 @@
           "name": "ControlClose_value16",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
             "layoutSetting": null
           }
         }
@@ -363,6 +507,15 @@
       "name": "group_Gripper_IO_1",
       "groupTitle": "Release",
       "uiElements": [
+        {
+          "name": "ControlOpen_enable1",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #1",
+            "value": true,
+            "layoutSetting": null
+          }
+        },
         {
           "name": "ControlOpen_number1",
           "elementType": "Int_Input",
@@ -378,10 +531,19 @@
           "name": "ControlOpen_value1",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
             "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable2",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #2",
+            "value": true,
             "layoutSetting": null
           }
         },
@@ -400,10 +562,19 @@
           "name": "ControlOpen_value2",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
             "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable3",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #3",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -422,10 +593,19 @@
           "name": "ControlOpen_value3",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable4",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #4",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -444,10 +624,19 @@
           "name": "ControlOpen_value4",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable5",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #5",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -466,10 +655,19 @@
           "name": "ControlOpen_value5",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable6",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #6",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -488,10 +686,19 @@
           "name": "ControlOpen_value6",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable7",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #7",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -510,10 +717,19 @@
           "name": "ControlOpen_value7",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable8",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #8",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -532,10 +748,19 @@
           "name": "ControlOpen_value8",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable9",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #9",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -554,10 +779,19 @@
           "name": "ControlOpen_value9",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable10",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #10",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -576,10 +810,19 @@
           "name": "ControlOpen_value10",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable11",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #11",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -598,10 +841,19 @@
           "name": "ControlOpen_value11",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable12",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #12",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -620,10 +872,19 @@
           "name": "ControlOpen_value12",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable13",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #13",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -642,10 +903,19 @@
           "name": "ControlOpen_value13",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable14",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #14",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -664,10 +934,19 @@
           "name": "ControlOpen_value14",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable15",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #15",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -686,10 +965,19 @@
           "name": "ControlOpen_value15",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "ControlOpen_enable16",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DO #16",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -708,10 +996,10 @@
           "name": "ControlOpen_value16",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-          "value": 2,
+            "value": 1,
             "layoutSetting": null
           }
         }
@@ -740,6 +1028,15 @@
           }
         },
         {
+          "name": "FeedbackFinish_enable1",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #1",
+            "value": true,
+            "layoutSetting": null
+          }
+        },
+        {
           "name": "FeedbackFinish_number1",
           "elementType": "Int_Input",
           "elementDefinition": {
@@ -754,10 +1051,19 @@
           "name": "FeedbackFinish_value1",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
             "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable2",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #2",
+            "value": true,
             "layoutSetting": null
           }
         },
@@ -776,10 +1082,19 @@
           "name": "FeedbackFinish_value2",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
             "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable3",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #3",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -798,10 +1113,19 @@
           "name": "FeedbackFinish_value3",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable4",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #4",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -820,10 +1144,19 @@
           "name": "FeedbackFinish_value4",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable5",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #5",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -842,10 +1175,19 @@
           "name": "FeedbackFinish_value5",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable6",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #6",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -864,10 +1206,19 @@
           "name": "FeedbackFinish_value6",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable7",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #7",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -886,10 +1237,19 @@
           "name": "FeedbackFinish_value7",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable8",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #8",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -908,10 +1268,19 @@
           "name": "FeedbackFinish_value8",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable9",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #9",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -930,10 +1299,19 @@
           "name": "FeedbackFinish_value9",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable10",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #10",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -952,10 +1330,19 @@
           "name": "FeedbackFinish_value10",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable11",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #11",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -974,10 +1361,19 @@
           "name": "FeedbackFinish_value11",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable12",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #12",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -996,10 +1392,19 @@
           "name": "FeedbackFinish_value12",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable13",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #13",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -1018,10 +1423,19 @@
           "name": "FeedbackFinish_value13",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable14",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #14",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -1040,10 +1454,19 @@
           "name": "FeedbackFinish_value14",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable15",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #15",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -1062,10 +1485,19 @@
           "name": "FeedbackFinish_value15",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackFinish_enable16",
+          "elementType": "CheckBox",
+          "elementDefinition": {
+            "title": "Enable DI #16",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -1084,10 +1516,10 @@
           "name": "FeedbackFinish_value16",
           "elementType": "Int_Input",
           "elementDefinition": {
-            "title": "Value (0: L, 1: H, 2: Don't Care)",
-            "maxValue": 2,
+            "title": "Value (0: L, 1: H)",
+            "maxValue": 1,
             "minValue": 0,
-            "value": 2,
+            "value": 1,
             "layoutSetting": null
           }
         },
