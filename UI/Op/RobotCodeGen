@@ -37,6 +37,9 @@ local Robot_DI_Done_E_UI = {} -- Enable/Disable for done feedback
 local Robot_DI_Done_N_UI = {}
 local Robot_DI_Done_V_UI = {}
 
+local lastDoCloseEnabled = 0 -- Track the last enabled DO for closing
+local lastDOOpenEnabled = 0 -- Track the last enabled DO for opening
+
 local WaitValue = 0
 local WaitMask = 0
 local NotEqualValue=0
@@ -56,6 +59,13 @@ for i = 1, 16 do
     Robot_DI_Done_E_UI[i] = PTable:get_Item("FeedbackFinish_enable" .. i)
     Robot_DI_Done_N_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_N_UI")
     Robot_DI_Done_V_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_V_UI")
+
+    if(Robot_DO_Close_E_UI[i] == true) then
+        lastDoCloseEnabled = i -- Update the last enabled DO for closing
+    end
+    if(Robot_DO_Open_E_UI[i] == true) then
+        lastDOOpenEnabled = i -- Update the last enabled DO for opening
+    end
 
     local doneNum = Robot_DI_Done_N_UI[i]
     local doneVal = Robot_DI_Done_V_UI[i]
@@ -105,15 +115,17 @@ for key, value in pairs(globalToolTcps) do
             openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
         end
 
-        if (i ~= 16 and openEnabled == true) then
+        -- Check if it is the last DO channel that has been enabled
+        if (i ~= lastDOOpenEnabled and openEnabled == true) then
             openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d ||", openNum, openVal)
-        elseif (i == 16 and openEnabled == true) then
+        elseif (i == lastDOOpenEnabled and openEnabled == true) then
             openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d", openNum, openVal)
         end
 
-        if (i ~= 16 and closeEnabled == true) then
+        -- Check if it is the last DO channel that has been enabled
+        if (i ~= lastDoCloseEnabled and closeEnabled == true) then
             closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d ||", closeNum, closeVal)
-        elseif (i == 16 and closeEnabled == true) then
+        elseif (i == lastDoCloseEnabled and closeEnabled == true) then
             closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d", closeNum, closeVal)
         end
 
