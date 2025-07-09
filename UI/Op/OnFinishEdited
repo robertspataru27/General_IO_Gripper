@@ -121,6 +121,7 @@ for i = 1, 16 do
 	if openEnabled == true then
 		openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
 	end
+end
 
 
 local globalToolTcps = thisTool.GetSelectedToolTCPs();

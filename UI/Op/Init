@@ -29,7 +29,7 @@ function WriteToPTableForRobotCodeGen()
 		local doneNum = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
 		local doneVal = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
 
-		if doneVal ~= 2 then -- Only add if doneVal is not 2
+		if doneEnabled == true then -- Only add if doneEnabled is true
 			WaitValue = WaitValue + doneVal * 2 ^ doneNum;
 			WaitMask = WaitMask + 1 * 2 ^ doneNum;
 		end

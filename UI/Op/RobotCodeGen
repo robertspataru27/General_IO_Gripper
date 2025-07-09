@@ -40,8 +40,8 @@ local Robot_DI_Done_V_UI = {}
 local WaitValue = 0
 local WaitMask = 0
 local NotEqualValue=0
-local NotEqualDinNumber=0
-local UniqueDinNumbers = {}
+local NotEqualDinNumber=0 -- Count of Unique DI Channel numbers that are used
+local UniqueDinNumbers = {} -- Table to track unique DI channel numbers
 
 -- Populate the lists using loop
 for i = 1, 16 do
@@ -85,7 +85,7 @@ local openCommands = ""
 local openIfStatementCommands = ""
 local closeIfStatementCommands = ""
 
-local whileStatementCommand = "GDIN(0, L=16)";
+local whileStatementCommand = "GDIN(0, L=16)"
 
 for key, value in pairs(globalToolTcps) do
 
