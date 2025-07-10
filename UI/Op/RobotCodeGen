@@ -74,7 +74,7 @@ for i = 1, 16 do
         UniqueDinNumbers[doneNum] = true
         WaitMask = WaitMask + 1 * (2 ^ doneNum)
         WaitValue = WaitValue + doneVal * (2 ^ doneNum) -- Calculate the wait value based on the channel number and value
-        NotEqualDinNumber = NotEqualDinNumber + 1
+        NotEqualDinNumber = NotEqualDinNumber + 1 -- If notEqualDinNumber is 1, then there is only one unique DI channel number used. However, there may be multiple values assocciated with the channel number.
         NotEqualValue = NotEqualValue + doneVal * (2 ^ doneNum)
     end
 end
@@ -198,7 +198,7 @@ else
                     WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                     
                     toolTimeOut=100;
-                    while(]]..whileStatementCommand..[[ == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                    while(GDIN(]]..Robot_DI_Done_N_UI[1]..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
                         WAIT(10);
                         toolTimeOut=toolTimeOut+10;
                     }
@@ -215,7 +215,7 @@ else
                 DOUT(]]..Robot_DO_Open_N_UI[1]..[[,]] ..Robot_DO_Open_V_UI[1].. [[);
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 toolTimeOut=100;
-                while(GDIN(]]..Robot_DO_Open_N_UI[1]..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                while(GDIN(]]..Robot_DI_Done_N_UI[1]..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
                     WAIT(10);
                     toolTimeOut=toolTimeOut+10;
                 }
