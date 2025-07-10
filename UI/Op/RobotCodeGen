@@ -162,7 +162,7 @@ elseif (NotEqualDinNumber ~= 1) then
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 
                 toolTimeOut=100;
-                while(]]..whileStatementCommand..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                while(]]..whileStatementCommand..[[ == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
                     WAIT(10);
                     toolTimeOut=toolTimeOut+10;
                 }
@@ -178,7 +178,7 @@ elseif (NotEqualDinNumber ~= 1) then
                 ]] .. openCommands .. [[
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 toolTimeOut=100;
-                while(]]..whileStatementCommand..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                while(]]..whileStatementCommand..[[ == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
                     WAIT(10);
                     toolTimeOut=toolTimeOut+10;
                 }
@@ -198,7 +198,7 @@ else
                     WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                     
                     toolTimeOut=100;
-                    while(]]..whileStatementCommand..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                    while(]]..whileStatementCommand..[[ == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
                         WAIT(10);
                         toolTimeOut=toolTimeOut+10;
                     }
