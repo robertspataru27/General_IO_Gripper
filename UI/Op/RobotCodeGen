@@ -73,7 +73,7 @@ for i = 1, 16 do
     if (Robot_DI_Done_E_UI[i] == true and not UniqueDinNumbers[doneNum]) then -- Only add if feedback finish enable is true and DI channel has not been used before
         UniqueDinNumbers[doneNum] = true
         WaitMask = WaitMask + 1 * (2 ^ doneNum)
-        WaitValue = WaitValue + doneVal * (2 ^ doneNum)
+        WaitValue = WaitValue + doneVal * (2 ^ doneNum) -- Calculate the wait value based on the channel number and value
         NotEqualDinNumber = NotEqualDinNumber + 1
         NotEqualValue = NotEqualValue + doneVal * (2 ^ doneNum)
     end
