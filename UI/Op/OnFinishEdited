@@ -46,23 +46,27 @@ for i = 1, 16 do
 	Robot_DO_Close_E_UI[i] = Instance:GetUiElementByName("ControlClose_enable" .. i).value
     Robot_DO_Close_N_UI[i] = Instance:GetUiElementByName("ControlClose_number" .. i).value
     Robot_DO_Close_V_UI[i] = Instance:GetUiElementByName("ControlClose_value" .. i).value
+
 	-- checking if the DO is enabled. If not then make the number and value invisible
 	if(Robot_DO_Close_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlClose_number" .. i).visible(false)
 		Instance:GetUiElementByName("ControlClose_value" .. i).visible(false)
-		Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
-		Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
+	else
+		Instance:GetUiElementByName("ControlClose_number" .. i).visible(true)
+		Instance:GetUiElementByName("ControlClose_value" .. i).visible(true)
 	end
 
 	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
     Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
     Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
+
 	-- checking if the DO is enabled. If not, then make the number and value invisible
 	if(Robot_DO_Open_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlOpen_number" .. i).visible(false)
 		Instance:GetUiElementByName("ControlOpen_value" .. i).visible(false)
-		Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
-		Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
+	else
+		Instance:GetUiElementByName("ControlOpen_number" .. i).visible(true)
+		Instance:GetUiElementByName("ControlOpen_value" .. i).visible(true)
 	end
 
 	Robot_DI_Done_E_UI[i] = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
@@ -72,9 +76,11 @@ for i = 1, 16 do
 	if(Robot_DI_Done_E_UI[i] == false) then
 		Instance:GetUiElementByName("FeedbackFinish_number" .. i).visible(false)
 		Instance:GetUiElementByName("FeedbackFinish_value" .. i).visible(false)
-		Instance:GetUiElementByName("FeedbackFinish_number" .. i):RefreshUI()
-		Instance:GetUiElementByName("FeedbackFinish_value" .. i):RefreshUI()
+	else
+		Instance:GetUiElementByName("FeedbackFinish_number" .. i).visible(true)
+		Instance:GetUiElementByName("FeedbackFinish_value" .. i).visible(true)
 	end
+	
 end
 
 local Robot_DI_Done_Timeout_UI=Instance:GetUiElementByName("TimeoutValue").value
