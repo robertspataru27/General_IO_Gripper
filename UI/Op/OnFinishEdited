@@ -55,6 +55,8 @@ for i = 1, 16 do
 		Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(true)
 		Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(true)
 	end
+	Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
+	Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
 
 	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
     Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
@@ -68,6 +70,8 @@ for i = 1, 16 do
 		Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(true)
 		Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(true)
 	end
+	Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
+	Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
 
 	Robot_DI_Done_E_UI[i] = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
     Robot_DI_Done_N_UI[i] = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
@@ -80,6 +84,8 @@ for i = 1, 16 do
 		Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(true)
 		Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetVisible(true)
 	end
+	Instance:GetUiElementByName("FeedbackFinish_number" .. i):RefreshUI()
+	Instance:GetUiElementByName("FeedbackFinish_value" .. i):RefreshUI()
 	
 end
 

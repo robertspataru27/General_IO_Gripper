@@ -37,6 +37,8 @@ function WriteToPTableForRobotCodeGen()
 			Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(true)
 			Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(true)
 		end
+		Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
+		Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
 
 		-- checking if the DO is enabled. If not, then make the number and value invisible
 		if(openEnabled == false) then
@@ -46,6 +48,8 @@ function WriteToPTableForRobotCodeGen()
 			Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(true)
 			Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(true)
 		end
+		Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
+		Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
 
 		-- checking if the DI is enabled. If not, then make the number and value invisible
 		if(doneEnabled == false) then
@@ -55,6 +59,8 @@ function WriteToPTableForRobotCodeGen()
 			Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(true)
 			Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetVisible(true)
 		end
+		Instance:GetUiElementByName("FeedbackFinish_number" .. i):RefreshUI()
+		Instance:GetUiElementByName("FeedbackFinish_value" .. i):RefreshUI()
 
 		if doneEnabled == true then -- Only add if doneEnabled is true
 			WaitValue = WaitValue + doneVal * 2 ^ doneNum;
