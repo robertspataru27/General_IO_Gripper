@@ -33,18 +33,24 @@ function WriteToPTableForRobotCodeGen()
 		if(closeEnabled == false) then
 			Instance:GetUiElementByName("ControlClose_number" .. i).visible(false)
 			Instance:GetUiElementByName("ControlClose_value" .. i).visible(false)
+			Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
+			Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
 		end
 
 		-- checking if the DO is enabled. If not, then make the number and value invisible
 		if(openEnabled == false) then
 			Instance:GetUiElementByName("ControlOpen_number" .. i).visible(false)
 			Instance:GetUiElementByName("ControlOpen_value" .. i).visible(false)
+			Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
+			Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
 		end
 
 		-- checking if the DI is enabled. If not, then make the number and value invisible
 		if(doneEnabled == false) then
 			Instance:GetUiElementByName("FeedbackFinish_number" .. i).visible(false)
 			Instance:GetUiElementByName("FeedbackFinish_value" .. i).visible(false)
+			Instance:GetUiElementByName("FeedbackFinish_number" .. i):RefreshUI()
+			Instance:GetUiElementByName("FeedbackFinish_value" .. i):RefreshUI()
 		end
 
 		if doneEnabled == true then -- Only add if doneEnabled is true
