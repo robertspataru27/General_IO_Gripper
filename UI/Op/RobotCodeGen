@@ -132,6 +132,7 @@ for key, value in pairs(globalToolTcps) do
     end
 end
 
+-- NotEqual is disabled, and so wait until all DI channels match their expected value.
 if (NotEqual_UI==false) then
     for key, value in pairs(globalToolTcps) do
         thisTool.SetActionToActuateTool( value.TCPNumber, [[
@@ -153,6 +154,7 @@ if (NotEqual_UI==false) then
         ]])
     end
 
+-- NotEqual is enabled, and so stop waiting as soon as any specified DI channel’s input value is not equal to its configured value.
 elseif (NotEqualDinNumber ~= 1) then
     for key, value in pairs(globalToolTcps) do
         thisTool.SetActionToActuateTool( value.TCPNumber, [[

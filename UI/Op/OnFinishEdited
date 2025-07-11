@@ -27,8 +27,6 @@ tag_name=UiElementType..'_'..ui_name..'_values'
 CS.UnityEngine.Debug.Log(tag_name)
 
 
-
-
 -----------------------------------------Session for this page-------------------------------
 -- Create lists to hold values
 local Robot_DO_Close_E_UI = {} -- Enable/Disable for closing
@@ -48,14 +46,26 @@ for i = 1, 16 do
 	Robot_DO_Close_E_UI[i] = Instance:GetUiElementByName("ControlClose_enable" .. i).value
     Robot_DO_Close_N_UI[i] = Instance:GetUiElementByName("ControlClose_number" .. i).value
     Robot_DO_Close_V_UI[i] = Instance:GetUiElementByName("ControlClose_value" .. i).value
+	if(Robot_DO_Close_E_UI[i] == true) then
+		Robot_DO_Close_N_UI[i].visible(false)
+		Robot_DO_Close_V_UI[i].visible(false)
+	end
 
 	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
     Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
     Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
+	if(Robot_DO_Open_E_UI[i] == true) then
+		Robot_DO_Open_N_UI[i].visible(false)
+		Robot_DO_Open_V_UI[i].visible(false)
+	end
 
 	Robot_DI_Done_E_UI[i] = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
     Robot_DI_Done_N_UI[i] = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
     Robot_DI_Done_V_UI[i] = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
+	if(Robot_DI_Done_E_UI[i] == true) then
+		Robot_DI_Done_N_UI[i].visible(false)
+		Robot_DI_Done_V_UI[i].visible(false)
+	end
 end
 
 local Robot_DI_Done_Timeout_UI=Instance:GetUiElementByName("TimeoutValue").value
