@@ -47,7 +47,7 @@ for i = 1, 16 do
     Robot_DO_Close_N_UI[i] = Instance:GetUiElementByName("ControlClose_number" .. i).value
     Robot_DO_Close_V_UI[i] = Instance:GetUiElementByName("ControlClose_value" .. i).value
 	-- checking if the DO is enabled. If not then make the number and value invisible
-	if(Robot_DO_Close_E_UI[i] == true) then
+	if(Robot_DO_Close_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlClose_number" .. i).visible(false)
 		Instance:GetUiElementByName("ControlClose_value" .. i).visible(false)
 	end
@@ -56,7 +56,7 @@ for i = 1, 16 do
     Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
     Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
 	-- checking if the DO is enabled. If not, then make the number and value invisible
-	if(Robot_DO_Open_E_UI[i] == true) then
+	if(Robot_DO_Open_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlOpen_number" .. i).visible(false)
 		Instance:GetUiElementByName("ControlOpen_value" .. i).visible(false)
 	end
@@ -65,7 +65,7 @@ for i = 1, 16 do
     Robot_DI_Done_N_UI[i] = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
     Robot_DI_Done_V_UI[i] = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
 	-- checking if the DI is enabled. If not, then make the number and value invisible
-	if(Robot_DI_Done_E_UI[i] == true) then
+	if(Robot_DI_Done_E_UI[i] == false) then
 		Instance:GetUiElementByName("FeedbackFinish_number" .. i).visible(false)
 		Instance:GetUiElementByName("FeedbackFinish_value" .. i).visible(false)
 	end
