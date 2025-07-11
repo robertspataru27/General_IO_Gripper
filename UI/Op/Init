@@ -33,10 +33,14 @@ function WriteToPTableForRobotCodeGen()
 		if(closeEnabled == false) then
 			Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(false)
 			Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(false)
+			Instance:GetUiElementByName("ControlClose_number" .. i):SetCollapsed(true)
+			Instance:GetUiElementByName("ControlClose_value" .. i):SetCollapsed(true)
 		else
 			Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(true)
 			Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(true)
 		end
+		Instance:GetUiElementByName("ControlClose_enable" .. i):SetVisible(true)
+		Instance:GetUiElementByName("ControlClose_enable" .. i):RefreshUI()
 		Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
 		Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
 
@@ -44,10 +48,14 @@ function WriteToPTableForRobotCodeGen()
 		if(openEnabled == false) then
 			Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(false)
 			Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(false)
+			Instance:GetUiElementByName("ControlOpen_number" .. i):SetCollapsed(true)
+			Instance:GetUiElementByName("ControlOpen_value" .. i):SetCollapsed(true)
 		else
 			Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(true)
 			Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(true)
 		end
+		Instance:GetUiElementByName("ControlOpen_enable" .. i):SetVisible(true)
+		Instance:GetUiElementByName("ControlOpen_enable" .. i):RefreshUI()
 		Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
 		Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
 
@@ -55,10 +63,14 @@ function WriteToPTableForRobotCodeGen()
 		if(doneEnabled == false) then
 			Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(false)
 			Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetVisible(false)
+			Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetCollapsed(true)
+			Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetCollapsed(true)
 		else
 			Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(true)
 			Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetVisible(true)
 		end
+		Instance:GetUiElementByName("FeedbackFinish_enable" .. i):SetVisible(true)
+		Instance:GetUiElementByName("FeedbackFinish_enable" .. i):RefreshUI()
 		Instance:GetUiElementByName("FeedbackFinish_number" .. i):RefreshUI()
 		Instance:GetUiElementByName("FeedbackFinish_value" .. i):RefreshUI()
 
