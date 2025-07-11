@@ -31,29 +31,29 @@ function WriteToPTableForRobotCodeGen()
 
 		-- checking if the DO is enabled. If not then make the number and value invisible
 		if(closeEnabled == false) then
-			Instance:GetUiElementByName("ControlClose_number" .. i).visible(false)
-			Instance:GetUiElementByName("ControlClose_value" .. i).visible(false)
+			Instance:GetUiElementByName("ControlClose_number" .. i):visible(false)
+			Instance:GetUiElementByName("ControlClose_value" .. i):visible(false)
 		else
-			Instance:GetUiElementByName("ControlClose_number" .. i).visible(true)
-			Instance:GetUiElementByName("ControlClose_value" .. i).visible(true)
+			Instance:GetUiElementByName("ControlClose_number" .. i):visible(true)
+			Instance:GetUiElementByName("ControlClose_value" .. i):visible(true)
 		end
 
 		-- checking if the DO is enabled. If not, then make the number and value invisible
 		if(openEnabled == false) then
-			Instance:GetUiElementByName("ControlOpen_number" .. i).visible(false)
-			Instance:GetUiElementByName("ControlOpen_value" .. i).visible(false)
+			Instance:GetUiElementByName("ControlOpen_number" .. i):visible(false)
+			Instance:GetUiElementByName("ControlOpen_value" .. i):visible(false)
 		else
-			Instance:GetUiElementByName("ControlOpen_number" .. i).visible(true)
-			Instance:GetUiElementByName("ControlOpen_value" .. i).visible(true)
+			Instance:GetUiElementByName("ControlOpen_number" .. i):visible(true)
+			Instance:GetUiElementByName("ControlOpen_value" .. i):visible(true)
 		end
 
 		-- checking if the DI is enabled. If not, then make the number and value invisible
 		if(doneEnabled == false) then
-			Instance:GetUiElementByName("FeedbackFinish_number" .. i).visible(false)
-			Instance:GetUiElementByName("FeedbackFinish_value" .. i).visible(false)
+			Instance:GetUiElementByName("FeedbackFinish_number" .. i):visible(false)
+			Instance:GetUiElementByName("FeedbackFinish_value" .. i):visible(false)
 		else
-			Instance:GetUiElementByName("FeedbackFinish_number" .. i).visible(true)
-			Instance:GetUiElementByName("FeedbackFinish_value" .. i).visible(true)
+			Instance:GetUiElementByName("FeedbackFinish_number" .. i):visible(true)
+			Instance:GetUiElementByName("FeedbackFinish_value" .. i):visible(true)
 		end
 
 		if doneEnabled == true then -- Only add if doneEnabled is true
