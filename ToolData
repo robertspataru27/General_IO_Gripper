@@ -1,5 +1,5 @@
 {
-    "ToolName": "VGL",
+    "ToolName": "General IO Tool",
     "TCPDatas": [
         {
             "TCPNumber": 1,
@@ -7,7 +7,7 @@
             "Point": {
                 "X": 0.0,
                 "Y": 0.0,
-                "Z": 146.85,
+                "Z": 0.0,
                 "A": 0.0,
                 "B": 0.0,
                 "C": 0.0
