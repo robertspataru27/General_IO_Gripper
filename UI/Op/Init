@@ -18,7 +18,7 @@ function WriteToPTableForRobotCodeGen()
 	local WaitStart = 0
 	local WaitLenth = 16
 
-	for i = 1, 16 do
+	for i = 0, 15 do
 		local closeEnabled = Instance:GetUiElementByName("ControlClose_enable" .. i).value
 		local closeNum = Instance:GetUiElementByName("ControlClose_number" .. i).value
 		local closeVal = Instance:GetUiElementByName("ControlClose_value" .. i).value

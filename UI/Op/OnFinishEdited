@@ -47,7 +47,22 @@ for i = 1, 16 do
     Robot_DO_Close_N_UI[i] = Instance:GetUiElementByName("ControlClose_number" .. i).value
     Robot_DO_Close_V_UI[i] = Instance:GetUiElementByName("ControlClose_value" .. i).value
 
-	-- checking if the DO is enabled. If not then make the number and value invisible
+	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
+    Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
+    Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
+
+	-- SYNCHRONIZE CHECKBOXES: If either Close or Open DO is enabled, enable both
+	local either_enabled = Robot_DO_Close_E_UI[i] or Robot_DO_Open_E_UI[i]
+	
+	if either_enabled then
+		-- If either is checked, check both
+		Instance:GetUiElementByName("ControlClose_enable" .. i).value = true
+		Instance:GetUiElementByName("ControlOpen_enable" .. i).value = true
+		Robot_DO_Close_E_UI[i] = true
+		Robot_DO_Open_E_UI[i] = true
+	end
+
+	-- Handle visibility for Close controls
 	if(Robot_DO_Close_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(false)
 		Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(false)
@@ -60,11 +75,7 @@ for i = 1, 16 do
 	Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
 	Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
 
-	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
-    Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
-    Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
-
-	-- checking if the DO is enabled. If not, then make the number and value invisible
+	-- Handle visibility for Open controls (same logic since they're now synchronized)
 	if(Robot_DO_Open_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(false)
 		Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(false)
@@ -77,9 +88,11 @@ for i = 1, 16 do
 	Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
 	Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
 
+	-- Handle DI (Digital Input) controls - no changes needed here
 	Robot_DI_Done_E_UI[i] = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
     Robot_DI_Done_N_UI[i] = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
     Robot_DI_Done_V_UI[i] = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
+	
 	-- checking if the DI is enabled. If not, then make the number and value invisible
 	if(Robot_DI_Done_E_UI[i] == false) then
 		Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(false)
@@ -102,7 +115,7 @@ local NotEqual_UI = Instance:GetUiElementByName("NotEqual").value
 local WaitValue = 0
 local WaitMask = 0
 
-for i = 1, 16 do
+for i = 0, 15 do
 	local doneEnabled = Robot_DI_Done_E_UI[i]
     local doneNum = Robot_DI_Done_N_UI[i]
     local doneVal = Robot_DI_Done_V_UI[i]
@@ -117,7 +130,7 @@ local WaitStart = 0
 local WaitLenth = 16
 
 function WriteToPTableForRobotCodeGen()
-	for i = 1, 16 do
+	for i = 0, 15 do
 		PTable:set_Item("ControlClose_enable" .. i, Robot_DO_Close_E_UI[i]);
 		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i]);
 		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i]);
@@ -144,7 +157,7 @@ end
 -- Build strings for all 16 DOUT commands for closing and opening the gripper
 local closeCommands = ""
 local openCommands = ""
-for i = 1, 16 do
+for i = 0, 15 do
 	local closeEnabled = Robot_DO_Close_E_UI[i]
 	local closeNum = Robot_DO_Close_N_UI[i]
 	local closeVal = Robot_DO_Close_V_UI[i]

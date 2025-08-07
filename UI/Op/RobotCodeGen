@@ -47,7 +47,7 @@ local NotEqualDinNumber=0 -- Count of Unique DI Channel numbers that are used
 local UniqueDinNumbers = {} -- Table to track unique DI channel numbers
 
 -- Populate the lists using loop
-for i = 1, 16 do
+for i = 0, 15 do
     Robot_DO_Close_E_UI[i] = PTable:get_Item("ControlClose_enable" .. i)
     Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI")
     Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI")
