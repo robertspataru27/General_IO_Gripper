@@ -1,0 +1,262 @@
+-- On Edit
+--The following program just save and restore the user's input 
+
+
+
+CS.UnityEngine.Debug.Log('ToolUI-> Gripper OnFinishEdited triggered')
+local thisTool = CS.ToolManagerLuaInterface
+local Instance = CS.ConfigurationMenu.ConfigurationMenuLuaInterface.Instance
+local PTable = Instance.parameterTable
+local UiElement = Instance.uiElementOnEdit
+
+local UiElementType = Instance.typeOfUiElementOnEdit
+--  UiElementType = Instance.uiElementOnEdit:uiElementType <- The same as above
+--  UiElementType = Instance.uiElementOnEdit:GetType().Name <- The same as above
+
+
+-- Verify PTable is setup
+PTable:set_Item('Vender', 'Mantis Robotics Inc')
+if(UiElement.name ~= nil) then
+	ui_name=UiElement.name
+else
+	ui_name = "Unkown"
+end
+CS.UnityEngine.Debug.Log(ui_name)
+
+tag_name=UiElementType..'_'..ui_name..'_values'
+CS.UnityEngine.Debug.Log(tag_name)
+
+
+-----------------------------------------Session for this page-------------------------------
+-- Create lists to hold values
+local Robot_DO_Close_E_UI = {} -- Enable/Disable for closing
+local Robot_DO_Close_N_UI = {}
+local Robot_DO_Close_V_UI = {}
+
+local Robot_DO_Open_E_UI = {} -- Enable/Disable for opening
+local Robot_DO_Open_N_UI = {}
+local Robot_DO_Open_V_UI = {}
+
+local Robot_DI_Done_E_UI = {} -- Enable/Disable for done feedback
+local Robot_DI_Done_N_UI = {}
+local Robot_DI_Done_V_UI = {}
+
+-- Populate the lists using loops
+for i = 0, 15 do
+	Robot_DO_Close_E_UI[i] = PTable:get_Item("ControlClose_enable" .. i) or false
+	Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI") or 0
+	Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI") or 1
+	Robot_DO_Open_E_UI[i] = PTable:get_Item("ControlOpen_enable" .. i) or false
+	Robot_DO_Open_N_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_N_UI") or 0
+	Robot_DO_Open_V_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_V_UI") or 1
+
+	-- Synchronize enable states if the edited element is a relevant checkbox
+	if ui_name:match("ControlClose_enable%d+") or ui_name:match("ControlOpen_enable%d+") then
+		local index = tonumber(ui_name:match("%d+"))
+		if index == i then
+			local isEnabled = UiElement.value
+			Robot_DO_Close_E_UI[i] = isEnabled
+			Robot_DO_Open_E_UI[i] = isEnabled
+			Instance:GetUiElementByName("ControlClose_enable" .. i).value = isEnabled
+			Instance:GetUiElementByName("ControlOpen_enable" .. i).value = isEnabled
+		end
+	else
+		-- Update non-enable fields from UI if edited
+		if ui_name == "ControlClose_number" .. i then
+			Robot_DO_Close_N_UI[i] = UiElement.value
+		elseif ui_name == "ControlClose_value" .. i then
+			Robot_DO_Close_V_UI[i] = UiElement.value
+		elseif ui_name == "ControlOpen_number" .. i then
+			Robot_DO_Open_N_UI[i] = UiElement.value
+		elseif ui_name == "ControlOpen_value" .. i then
+			Robot_DO_Open_V_UI[i] = UiElement.value
+		end
+	end
+	
+	-- Handle visibility for Close controls
+	if(Robot_DO_Close_E_UI[i] == false) then
+		Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(false)
+		Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(false)
+	else
+		Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(true)
+		Instance:GetUiElementByName("ControlClose_value" .. i):SetVisible(true)
+	end
+	Instance:GetUiElementByName("ControlClose_enable" .. i):SetVisible(true)
+	Instance:GetUiElementByName("ControlClose_enable" .. i):RefreshUI()
+	Instance:GetUiElementByName("ControlClose_number" .. i):RefreshUI()
+	Instance:GetUiElementByName("ControlClose_value" .. i):RefreshUI()
+
+	-- Handle visibility for Open controls (same logic since they're now synchronized)
+	if(Robot_DO_Open_E_UI[i] == false) then
+		Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(false)
+		Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(false)
+	else
+		Instance:GetUiElementByName("ControlOpen_number" .. i):SetVisible(true)
+		Instance:GetUiElementByName("ControlOpen_value" .. i):SetVisible(true)
+	end
+	Instance:GetUiElementByName("ControlOpen_enable" .. i):SetVisible(true)
+	Instance:GetUiElementByName("ControlOpen_enable" .. i):RefreshUI()
+	Instance:GetUiElementByName("ControlOpen_number" .. i):RefreshUI()
+	Instance:GetUiElementByName("ControlOpen_value" .. i):RefreshUI()
+
+	-- Handle DI (Digital Input) controls - no changes needed here
+	Robot_DI_Done_E_UI[i] = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
+    Robot_DI_Done_N_UI[i] = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
+    Robot_DI_Done_V_UI[i] = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
+	
+	-- checking if the DI is enabled. If not, then make the number and value invisible
+	if(Robot_DI_Done_E_UI[i] == false) then
+		Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(false)
+		Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetVisible(false)
+	else
+		Instance:GetUiElementByName("FeedbackFinish_number" .. i):SetVisible(true)
+		Instance:GetUiElementByName("FeedbackFinish_value" .. i):SetVisible(true)
+	end
+	Instance:GetUiElementByName("FeedbackFinish_enable" .. i):SetVisible(true)
+	Instance:GetUiElementByName("FeedbackFinish_enable" .. i):RefreshUI()
+	Instance:GetUiElementByName("FeedbackFinish_number" .. i):RefreshUI()
+	Instance:GetUiElementByName("FeedbackFinish_value" .. i):RefreshUI()
+	
+end
+
+local Robot_DI_Done_Timeout_UI=Instance:GetUiElementByName("TimeoutValue").value
+local Robot_DetectionDelay_UI=Instance:GetUiElementByName("DetectionDelay").value
+local NotEqual_UI = Instance:GetUiElementByName("NotEqual").value
+
+local WaitValue = 0
+local WaitMask = 0
+
+for i = 0, 15 do
+	local doneEnabled = Robot_DI_Done_E_UI[i]
+    local doneNum = Robot_DI_Done_N_UI[i]
+    local doneVal = Robot_DI_Done_V_UI[i]
+
+    if doneEnabled == true then
+        WaitValue = WaitValue + doneVal * 2 ^ doneNum
+        WaitMask = WaitMask + 1 * 2 ^ doneNum
+    end
+end
+
+local WaitStart = 0
+local WaitLenth = 16
+
+function WriteToPTableForRobotCodeGen()
+	for i = 0, 15 do
+		PTable:set_Item("ControlClose_enable" .. i, Robot_DO_Close_E_UI[i]);
+		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i]);
+		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i]);
+
+		PTable:set_Item("ControlOpen_enable" .. i, Robot_DO_Open_E_UI[i]);
+		PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", Robot_DO_Open_N_UI[i]);
+		PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", Robot_DO_Open_V_UI[i]);
+
+		PTable:set_Item("FeedbackFinish_enable" .. i, Robot_DI_Done_E_UI[i]);
+		PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", Robot_DI_Done_N_UI[i]);
+		PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i]);
+	end
+
+	PTable:set_Item("Robot_DI_Done_Timeout_UI", Robot_DI_Done_Timeout_UI);
+	PTable:set_Item("Robot_DetectionDelay_UI", Robot_DetectionDelay_UI);
+	PTable:set_Item("NotEqual_UI", NotEqual_UI);
+	PTable:set_Item("WaitValue", WaitValue);
+	PTable:set_Item("WaitMask", WaitMask);
+	PTable:set_Item("WaitStart", WaitStart);
+	PTable:set_Item("WaitLenth", WaitLenth);
+end
+
+
+-- Build strings for all 16 DOUT commands for closing and opening the gripper
+local closeCommands = ""
+local openCommands = ""
+for i = 0, 15 do
+	local closeEnabled = Robot_DO_Close_E_UI[i]
+	local closeNum = Robot_DO_Close_N_UI[i]
+	local closeVal = Robot_DO_Close_V_UI[i]
+	if closeEnabled == true then
+		closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
+	end
+
+	local openEnabled = Robot_DO_Open_E_UI[i]
+	local openNum = Robot_DO_Open_N_UI[i]
+	local openVal = Robot_DO_Open_V_UI[i]
+	if openEnabled == true then
+		openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
+	end
+end
+
+
+local globalToolTcps = thisTool.GetSelectedToolTCPs();
+for key, value in pairs(globalToolTcps) do
+	
+    thisTool.SetActionToActuateTool( value.TCPNumber, [[
+		WaitSS();
+        ]] .. closeCommands .. [[
+        WAIT(]] .. Robot_DetectionDelay_UI .. [[);
+        WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLenth..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
+    ]])
+    thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
+		WaitSS();
+        ]] .. openCommands .. [[
+        WAIT(]] .. Robot_DetectionDelay_UI .. [[);
+        WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLenth..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
+    ]])
+end
+
+-- [CheckBox] [Text Display] [Text Input] [Int Input]
+if (UiElementType == "CheckBox") or 
+     (UiElementType == "Text_Display") or 
+       (UiElementType == "Text_Input") or  
+         (UiElementType == "Float_Input") or  
+           (UiElementType == "Int_Input") or
+		     (UiElementType == "Digital_Output") or 
+			   (UiElementType == "Digital_Input") or
+			     (UiElementType == "Dropdown") then
+	PTable:set_Item(tag_name, UiElement.value) --save to PTable
+	
+-- [Transform] [Joint]
+elseif (UiElementType == "Transform") or 
+     (UiElementType == "Joint") then 
+	current_values={}
+	for i=1,6 do
+		current_values[i]=UiElement.value[i-1] --write data to temp array
+	end
+	commaSeperatedValues = table.concat(current_values, ', ')
+	PTable:set_Item(tag_name, commaSeperatedValues)
+	
+-- Project Tool
+elseif (UiElementType == "ProjectTool") then
+	current_values={}
+	for i=1,6 do
+		current_values[i]=UiElement.value.transform[i-1] --write data to temp array
+	end
+	commaSeperatedValues = table.concat(current_values, ', ')
+	
+	PTable:set_Item(tag_name..'_transform', commaSeperatedValues) --save to PTable
+    PTable:set_Item(tag_name..'_toolName', UiElement.value.toolName)
+	PTable:set_Item(tag_name..'_tcpNumber', UiElement.value.tcpNumber)
+	
+
+-- [TODO] Add List Type (List<List<ConfigurationMenuUiElement>> value)
+elseif (UiElementType == "List") then
+	PTable:set_Item(tag_name, UiElement.value)
+	-- error("type: " .. type(UiElement)) --> userData
+	-- error("type: " .. type(UiElement.value)) --> userData
+	-- for keyLayer1, subList in pairs(UiElement.value) do --> list<>
+		-- error("type: " .. type(mainList))	--> userData  (https://www.lua.org/pil/28.1.html)
+		-- for keyLayer2, element in pairs(subList) do 
+			-- error("Console>> " .. element.value)
+			-- error("Console>> " .. element:GetType().Name)
+			-- element:GetType().Name
+			-- PTableKey = tag_name .. "_" .. keyLayer1 .. '_' .. keyLayer2 .. '_value' 
+			-- CS.UnityEngine.Debug.Log("Console>> " .. PTableKey)
+		-- end
+		-- subTagName = tag_name .. '[' .. key1 .. '][' ..key2..']'
+		-- PTable:set_Item(subTagName, uiSubElement.value)
+	-- end
+
+else
+	CS.UnityEngine.Debug.Log('Type not yet configured (OnEdit): ' .. UiElementType)
+	--error("Unsetting type")
+end
+
+WriteToPTableForRobotCodeGen();
