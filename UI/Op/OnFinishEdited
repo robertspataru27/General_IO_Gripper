@@ -42,26 +42,37 @@ local Robot_DI_Done_N_UI = {}
 local Robot_DI_Done_V_UI = {}
 
 -- Populate the lists using loops
-for i = 1, 16 do
-	Robot_DO_Close_E_UI[i] = Instance:GetUiElementByName("ControlClose_enable" .. i).value
-    Robot_DO_Close_N_UI[i] = Instance:GetUiElementByName("ControlClose_number" .. i).value
-    Robot_DO_Close_V_UI[i] = Instance:GetUiElementByName("ControlClose_value" .. i).value
+for i = 0, 15 do
+	Robot_DO_Close_E_UI[i] = PTable:get_Item("ControlClose_enable" .. i) or false
+	Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI") or 0
+	Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI") or 1
+	Robot_DO_Open_E_UI[i] = PTable:get_Item("ControlOpen_enable" .. i) or false
+	Robot_DO_Open_N_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_N_UI") or 0
+	Robot_DO_Open_V_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_V_UI") or 1
 
-	Robot_DO_Open_E_UI[i] = Instance:GetUiElementByName("ControlOpen_enable" .. i).value
-    Robot_DO_Open_N_UI[i] = Instance:GetUiElementByName("ControlOpen_number" .. i).value
-    Robot_DO_Open_V_UI[i] = Instance:GetUiElementByName("ControlOpen_value" .. i).value
-
-	-- SYNCHRONIZE CHECKBOXES: If either Close or Open DO is enabled, enable both
-	local either_enabled = Robot_DO_Close_E_UI[i] or Robot_DO_Open_E_UI[i]
-	
-	if either_enabled then
-		-- If either is checked, check both
-		Instance:GetUiElementByName("ControlClose_enable" .. i).value = true
-		Instance:GetUiElementByName("ControlOpen_enable" .. i).value = true
-		Robot_DO_Close_E_UI[i] = true
-		Robot_DO_Open_E_UI[i] = true
+	-- Synchronize enable states if the edited element is a relevant checkbox
+	if ui_name:match("ControlClose_enable%d+") or ui_name:match("ControlOpen_enable%d+") then
+		local index = tonumber(ui_name:match("%d+"))
+		if index == i then
+			local isEnabled = UiElement.value
+			Robot_DO_Close_E_UI[i] = isEnabled
+			Robot_DO_Open_E_UI[i] = isEnabled
+			Instance:GetUiElementByName("ControlClose_enable" .. i).value = isEnabled
+			Instance:GetUiElementByName("ControlOpen_enable" .. i).value = isEnabled
+		end
+	else
+		-- Update non-enable fields from UI if edited
+		if ui_name == "ControlClose_number" .. i then
+			Robot_DO_Close_N_UI[i] = UiElement.value
+		elseif ui_name == "ControlClose_value" .. i then
+			Robot_DO_Close_V_UI[i] = UiElement.value
+		elseif ui_name == "ControlOpen_number" .. i then
+			Robot_DO_Open_N_UI[i] = UiElement.value
+		elseif ui_name == "ControlOpen_value" .. i then
+			Robot_DO_Open_V_UI[i] = UiElement.value
+		end
 	end
-
+	
 	-- Handle visibility for Close controls
 	if(Robot_DO_Close_E_UI[i] == false) then
 		Instance:GetUiElementByName("ControlClose_number" .. i):SetVisible(false)

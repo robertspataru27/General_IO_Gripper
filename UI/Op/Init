@@ -1,4 +1,3 @@
-
 -- [Note] Only runs once and loads ALL variables
 -- [Note] This file is Cached! Empty Cache and Reload after each edit during testing.
 
@@ -28,6 +27,22 @@ function WriteToPTableForRobotCodeGen()
 		local doneEnabled = Instance:GetUiElementByName("FeedbackFinish_enable" .. i).value
 		local doneNum = Instance:GetUiElementByName("FeedbackFinish_number" .. i).value
 		local doneVal = Instance:GetUiElementByName("FeedbackFinish_value" .. i).value
+
+		-- either closeEnabled and openEnabled are both true or both false
+		local either_enabled = closeEnabled or openEnabled
+		if(either_enabled == true) then 
+			-- Update both UI elements AND local variables
+			Instance:GetUiElementByName("ControlClose_enable" .. i).value = true
+			Instance:GetUiElementByName("ControlOpen_enable" .. i).value = true
+			closeEnabled = true
+			openEnabled = true
+		else
+			-- Update both UI elements AND local variables
+			Instance:GetUiElementByName("ControlClose_enable" .. i).value = false
+			Instance:GetUiElementByName("ControlOpen_enable" .. i).value = false
+			closeEnabled = false
+			openEnabled = false
+		end
 
 		-- checking if the DO is enabled. If not then make the number and value invisible
 		if(closeEnabled == false) then
