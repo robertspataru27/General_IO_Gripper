@@ -1,230 +1,155 @@
--- On Edit
--- Core Idea : 
--- Read all data related to gripper from Ptable and consider waitTimeout/waitFeedback into tool function
-
---About "NotEqual"
---"NotEqual" decide that gripper should wait condition until equal/notEqual feedback condition 
---Under limitation of TPUI(WDIN don't support notEqual),the program logic of equal/noEqual are different 
-
-
---About "WDIN" 
---According to the function of WDIN,  WDIN ( CH, VAL, [L], [MASK], [T] )
---"CH" : DO/DI Channel number,
---"VAL": value wait for(bit opration)
---"[Mask]" : Mask for specific IO
---So following program contain bit operation , nexcobot doument have more detail about it
-
-
---About "toolTimeOut" variable 
---Under limitation of TPUI ,all variable should defined in top of function so we define it in global variable first(MantisCodeGeneration/RobotCOde/CodePool/Robot/robot_5)  
-
---------------------------------------------------------------------------------------------------------------------------------
-
-
 local thisTool = CS.ToolManagerLuaInterface
 local Instance = CS.ConfigurationMenu.ConfigurationMenuLuaInterface.Instance
 local PTable = Instance.parameterTable
 
-local Robot_DO_Close_E_UI = {} -- Enable/Disable for closing
 local Robot_DO_Close_N_UI = {}
 local Robot_DO_Close_V_UI = {}
-
-local Robot_DO_Open_E_UI = {} -- Enable/Disable for opening
 local Robot_DO_Open_N_UI = {}
 local Robot_DO_Open_V_UI = {}
-
-local Robot_DI_Done_E_UI = {} -- Enable/Disable for done feedback
 local Robot_DI_Done_N_UI = {}
 local Robot_DI_Done_V_UI = {}
 
-local lastDoCloseEnabled = 0 -- Track the last enabled DO for closing
-local lastDOOpenEnabled = 0 -- Track the last enabled DO for opening
-
+local lastDoCloseEnabled = 0
+local lastDoOpenEnabled = 0
 local WaitValue = 0
 local WaitMask = 0
-local NotEqualValue=0
-local NotEqualDinNumber=0 -- Count of Unique DI Channel numbers that are used
-local UniqueDinNumbers = {} -- Table to track unique DI channel numbers
+local NotEqualValue = 0
+local NotEqualDinNumber = 0
+local UniqueDinNumbers = {}
 
--- Populate the lists using loop
-for i = 0, 15 do
-    Robot_DO_Close_E_UI[i] = PTable:get_Item("ControlClose_enable" .. i)
-    Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI")
-    Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI")
+-- Get DO and DI counts
+local doCount = PTable:get_Item("DoCountSelection_values") or 3
+local diCount = PTable:get_Item("DiCountSelection_values") or 3
 
-    Robot_DO_Open_E_UI[i] = PTable:get_Item("ControlOpen_enable" .. i)
-    Robot_DO_Open_N_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_N_UI")
-    Robot_DO_Open_V_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_V_UI")
+-- Populate lists from PTable
+for i = 0, doCount - 1 do
+    Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI") or 0
+    Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI") or 1
+    Robot_DO_Open_N_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_N_UI") or 0
+    Robot_DO_Open_V_UI[i] = PTable:get_Item("Robot_DO_Open" .. i .. "_V_UI") or 1
+    lastDoCloseEnabled = i
+    lastDoOpenEnabled = i
+end
 
-    Robot_DI_Done_E_UI[i] = PTable:get_Item("FeedbackFinish_enable" .. i)
-    Robot_DI_Done_N_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_N_UI")
-    Robot_DI_Done_V_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_V_UI")
-
-    if(Robot_DO_Close_E_UI[i] == true) then
-        lastDoCloseEnabled = i -- Update the last enabled DO for closing
-    end
-    if(Robot_DO_Open_E_UI[i] == true) then
-        lastDOOpenEnabled = i -- Update the last enabled DO for opening
-    end
-
+for i = 0, diCount - 1 do
+    Robot_DI_Done_N_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_N_UI") or 0
+    Robot_DI_Done_V_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_V_UI") or 1
     local doneNum = Robot_DI_Done_N_UI[i]
     local doneVal = Robot_DI_Done_V_UI[i]
-
-    
-    -- FOR i := 1 TO N DO
-    -- WaitMask := WaitMask + (1 * (2 ^ N_UI[i]))
-    -- WaitValue := WaitValue + (V_UI[i] * (2 ^ N_UI[i]))
-    -- NotEqualValue := NotEqualValue + (V_UI[i] * (2 ^ (i - 1)))
-    -- END_FOR 
-    
-
-    if (Robot_DI_Done_E_UI[i] == true and not UniqueDinNumbers[doneNum]) then -- Only add if feedback finish enable is true and DI channel has not been used before
+    if not UniqueDinNumbers[doneNum] then
         UniqueDinNumbers[doneNum] = true
         WaitMask = WaitMask + 1 * (2 ^ doneNum)
-        WaitValue = WaitValue + doneVal * (2 ^ doneNum) -- Calculate the wait value based on the channel number and value
-        NotEqualDinNumber = NotEqualDinNumber + 1 -- If notEqualDinNumber is 1, then there is only one unique DI channel number used. However, there may be multiple values assocciated with the channel number.
-        NotEqualValue = NotEqualValue + (doneVal * (2 ^ (i - 1)))  -- NotEqualVal encodes the actual value(s) of the inputs when they are not equal.
+        WaitValue = WaitValue + doneVal * (2 ^ doneNum)
+        NotEqualDinNumber = NotEqualDinNumber + 1
+        NotEqualValue = NotEqualValue + (doneVal * (2 ^ i))
     end
 end
 
-local Robot_DI_Done_Timeout_UI = PTable:get_Item("Robot_DI_Done_Timeout_UI")
-local NotEqual_UI = PTable:get_Item("NotEqual_UI")
-local Robot_DetectionDelay_UI = PTable:get_Item("Robot_DetectionDelay_UI")
-
+local Robot_DI_Done_Timeout_UI = PTable:get_Item("Robot_DI_Done_Timeout_UI") or 2000
+local NotEqual_UI = PTable:get_Item("NotEqual_UI") or false
+local Robot_DetectionDelay_UI = PTable:get_Item("Robot_DetectionDelay_UI") or 100
 local WaitStart = 0
 local WaitLength = 16
-local globalToolTcps = thisTool.GetSelectedToolTCPs();
+local globalToolTcps = thisTool.GetSelectedToolTCPs()
 
--- Build strings for all 16 DOUT commands for closing and opening the gripper
+-- Build DOUT commands
 local closeCommands = ""
 local openCommands = ""
-
--- Build the strings for checking if DO channels meet corresponding values
-local openIfStatementCommands = ""
 local closeIfStatementCommands = ""
-
+local openIfStatementCommands = ""
 local whileStatementCommand = "GDIN(0, L=16)"
 
-for key, value in pairs(globalToolTcps) do
-
-    for i = 1, 16 do
-        local closeEnabled = Robot_DO_Close_E_UI[i]
-        local closeNum = Robot_DO_Close_N_UI[i]
-        local closeVal = Robot_DO_Close_V_UI[i]
-        local openEnabled = Robot_DO_Open_E_UI[i]
-        local openNum = Robot_DO_Open_N_UI[i]
-        local openVal = Robot_DO_Open_V_UI[i]
-
-        if (closeEnabled == true) then 
-            closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
-        end
-
-        if(openEnabled == true) then 
-            openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
-        end
-
-        -- Check if it is the last DO channel that has been enabled
-        if (i ~= lastDOOpenEnabled and openEnabled == true) then
-            openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d ||", openNum, openVal)
-        elseif (i == lastDOOpenEnabled and openEnabled == true) then
-            openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d", openNum, openVal)
-        end
-
-        -- Check if it is the last DO channel that has been enabled
-        if (i ~= lastDoCloseEnabled and closeEnabled == true) then
-            closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d ||", closeNum, closeVal)
-        elseif (i == lastDoCloseEnabled and closeEnabled == true) then
-            closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d", closeNum, closeVal)
-        end
-
+for i = 0, doCount - 1 do
+    closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", Robot_DO_Close_N_UI[i], Robot_DO_Close_V_UI[i])
+    openCommands = openCommands .. string.format("DOUT(%d,%d);\n", Robot_DO_Open_N_UI[i], Robot_DO_Open_V_UI[i])
+    if i ~= lastDoCloseEnabled then
+        closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d ||", Robot_DO_Close_N_UI[i], Robot_DO_Close_V_UI[i])
+    else
+        closeIfStatementCommands = closeIfStatementCommands .. string.format("GDOUT(%d) != %d", Robot_DO_Close_N_UI[i], Robot_DO_Close_V_UI[i])
+    end
+    if i ~= lastDoOpenEnabled then
+        openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d ||", Robot_DO_Open_N_UI[i], Robot_DO_Open_V_UI[i])
+    else
+        openIfStatementCommands = openIfStatementCommands .. string.format("GDOUT(%d) != %d", Robot_DO_Open_N_UI[i], Robot_DO_Open_V_UI[i])
     end
 end
 
--- NotEqual is disabled, and so wait until all DI channels match their expected value.
-if (NotEqual_UI==false) then
+-- Generate robot code
+if NotEqual_UI == false then
     for key, value in pairs(globalToolTcps) do
-        thisTool.SetActionToActuateTool( value.TCPNumber, [[
+        thisTool.SetActionToActuateTool(value.TCPNumber, [[
         WaitSS();
         if(]] .. closeIfStatementCommands .. [[) {
             ]] .. closeCommands .. [[
             WAIT(]] .. Robot_DetectionDelay_UI .. [[);
-            WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLength..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
+            WDIN(]] .. WaitStart .. [[,]] .. WaitValue .. [[,L=]] .. WaitLength .. [[,MASK=]] .. WaitMask .. [[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
         }
     ]])
-    thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
+        thisTool.SetActionToDeactuateTool(value.TCPNumber, [[
         WaitSS();
         if(]] .. openIfStatementCommands .. [[) {
             ]] .. openCommands .. [[
             WAIT(]] .. Robot_DetectionDelay_UI .. [[);
-            WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLength..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
+            WDIN(]] .. WaitStart .. [[,]] .. WaitValue .. [[,L=]] .. WaitLength .. [[,MASK=]] .. WaitMask .. [[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
         }
-        ]])
+    ]])
     end
-
--- NotEqual is enabled, and so stop waiting as soon as any specified DI channel’s input value is not equal to its configured value.
-elseif (NotEqualDinNumber ~= 1) then
+elseif NotEqualDinNumber ~= 1 then
     for key, value in pairs(globalToolTcps) do
-        thisTool.SetActionToActuateTool( value.TCPNumber, [[
+        thisTool.SetActionToActuateTool(value.TCPNumber, [[
             WaitSS();
             if(]] .. closeIfStatementCommands .. [[) {
                 ]] .. closeCommands .. [[
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
-                
                 toolTimeOut=100;
-                while(]]..whileStatementCommand..[[ == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                while(]] .. whileStatementCommand .. [[ == ]] .. NotEqualValue .. [[ && toolTimeOut< ]] .. Robot_DI_Done_Timeout_UI .. [[){
                     WAIT(10);
                     toolTimeOut=toolTimeOut+10;
                 }
                 toolTimeOut=0;
             }
-            ]])
-        thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
+        ]])
+        thisTool.SetActionToDeactuateTool(value.TCPNumber, [[
             WaitSS();
             if(]] .. openIfStatementCommands .. [[) {
                 ]] .. openCommands .. [[
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 toolTimeOut=100;
-                while(]]..whileStatementCommand..[[ == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                while(]] .. whileStatementCommand .. [[ == ]] .. NotEqualValue .. [[ && toolTimeOut< ]] .. Robot_DI_Done_Timeout_UI .. [[){
                     WAIT(10);
                     toolTimeOut=toolTimeOut+10;
                 }
                 toolTimeOut=0;
             }
-    ]])
+        ]])
     end
-
-
-
-else 
+else
     for key, value in pairs(globalToolTcps) do
-        thisTool.SetActionToActuateTool( value.TCPNumber, [[
-                WaitSS();
-                if(]] .. closeIfStatementCommands .. [[) {
-                    ]] .. closeCommands .. [[
-                    WAIT(]] .. Robot_DetectionDelay_UI .. [[);
-                    
-                    toolTimeOut=100;
-                    while(GDIN(]]..Robot_DI_Done_N_UI[1]..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
-                        WAIT(10);
-                        toolTimeOut=toolTimeOut+10;
-                    }
-                    toolTimeOut=0;
-                }
-    ]])
-
-        thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
+        thisTool.SetActionToActuateTool(value.TCPNumber, [[
             WaitSS();
-            if(GDOUT(]]..Robot_DO_Open_N_UI[1]..[[) != ]] ..Robot_DO_Open_V_UI[1]..[[){
-                DOUT(]]..Robot_DO_Open_N_UI[1]..[[,]] ..Robot_DO_Open_V_UI[1].. [[);
+            if(]] .. closeIfStatementCommands .. [[) {
+                ]] .. closeCommands .. [[
                 WAIT(]] .. Robot_DetectionDelay_UI .. [[);
                 toolTimeOut=100;
-                while(GDIN(]]..Robot_DI_Done_N_UI[1]..[[) == ]]..NotEqualValue..[[ && toolTimeOut< ]]..Robot_DI_Done_Timeout_UI..[[){
+                while(GDIN(]] .. Robot_DI_Done_N_UI[0] .. [[) == ]] .. NotEqualValue .. [[ && toolTimeOut< ]] .. Robot_DI_Done_Timeout_UI .. [[){
                     WAIT(10);
                     toolTimeOut=toolTimeOut+10;
                 }
                 toolTimeOut=0;
             }
-    ]])
-            end
-        
+        ]])
+        thisTool.SetActionToDeactuateTool(value.TCPNumber, [[
+            WaitSS();
+            if(]] .. openIfStatementCommands .. [[) {
+                ]] .. openCommands .. [[
+                WAIT(]] .. Robot_DetectionDelay_UI .. [[);
+                toolTimeOut=100;
+                while(GDIN(]] .. Robot_DI_Done_N_UI[0] .. [[) == ]] .. NotEqualValue .. [[ && toolTimeOut< ]] .. Robot_DI_Done_Timeout_UI .. [[){
+                    WAIT(10);
+                    toolTimeOut=toolTimeOut+10;
+                }
+                toolTimeOut=0;
+            }
+        ]])
+    end
 end
