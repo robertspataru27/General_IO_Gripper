@@ -18,8 +18,8 @@ local NotEqualDinNumber = 0
 local UniqueDinNumbers = {}
 
 -- Get DO and DI counts
-local doCount = PTable:get_Item("DoCountSelection") or 3
-local diCount = PTable:get_Item("DiCountSelection") or 3
+local doCount = PTable:get_Item("DoCount") or 3
+local diCount = PTable:get_Item("DiCount") or 3
 
 -- Populate lists from PTable
 for i = 0, doCount - 1 do

@@ -7,9 +7,14 @@ local UiElementType = Instance.typeOfUiElementOnEdit
 
 -- Verify PTable is setup
 PTable:set_Item('Vender', 'Mantis Robotics Inc')
-local ui_name = UiElement.name or "Unknown"
-local tag_name = UiElementType .. '_' .. ui_name .. '_values'
+if(UiElement.name ~= nil) then
+	ui_name=UiElement.name
+else
+	ui_name = "Unkown"
+end
 CS.UnityEngine.Debug.Log(ui_name)
+
+tag_name=UiElementType..'_'..ui_name..'_values'
 CS.UnityEngine.Debug.Log(tag_name)
 
 -- Get DO and DI counts
@@ -112,6 +117,8 @@ function WriteToPTableForRobotCodeGen()
         PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i])
     end
 
+	PTable:set_Item("DoCount", doCount)
+	PTable:set_Item("DiCount", diCount)
     PTable:set_Item("Robot_DI_Done_Timeout_UI", Robot_DI_Done_Timeout_UI)
     PTable:set_Item("Robot_DetectionDelay_UI", Robot_DetectionDelay_UI)
     PTable:set_Item("NotEqual_UI", NotEqual_UI)

@@ -12,9 +12,9 @@ function WriteToPTableForRobotCodeGen()
 
     -- Get DO and DI counts from dropdowns
     local doCount = Instance:GetUiElementByName("DoCountSelection").value
-	PTable:set_Item("DoCountSelection", doCount)
+	PTable:set_Item("DoCount", doCount)
     local diCount = Instance:GetUiElementByName("DiCountSelection").value
-	PTable:set_Item("DiCountSelection", diCount)
+	PTable:set_Item("DiCount", diCount)
 
     -- Get list elements
     local closeDOList = Instance:GetUiElementByName("CloseGripperDOSelection").value
