@@ -74,11 +74,11 @@
                 }
               }
             ],
-            "defaultListCount": 0,
+            "defaultListCount": 3,
             "isScrollable": true,
             "isEditable": true,
             "maxItemVisible": 16,
-            "value": null,
+            "value": [],
             "layoutSetting": {
               "isHorizontal": false,
               "titleMultiLine": false
@@ -144,11 +144,11 @@
                 }
               }
             ],
-            "defaultListCount": 0,
+            "defaultListCount": 3,
             "isScrollable": true,
             "isEditable": true,
             "maxItemVisible": 16,
-            "value": null,
+            "value": [],
             "layoutSetting": {
               "isHorizontal": false,
               "titleMultiLine": false
@@ -191,7 +191,7 @@
           "elementType": "CheckBox",
           "elementDefinition": {
             "title": "NotEqual",
-            "value": "False",
+            "value": false,
             "layoutSetting": null
           }
         },
@@ -248,11 +248,11 @@
                 }
               }
             ],
-            "defaultListCount": 0,
+            "defaultListCount": 3,
             "isScrollable": true,
             "isEditable": true,
             "maxItemVisible": 16,
-            "value": null,
+            "value": [],
             "layoutSetting": {
               "isHorizontal": false,
               "titleMultiLine": false
