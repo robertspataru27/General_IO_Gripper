@@ -48,8 +48,15 @@ local Robot_DI_Done_Timeout_UI = PTable:get_Item("Robot_Di_Done_Timeout_UI")
 local NotEqual_UI = PTable:get_Item("NotEqual_UI")
 local Robot_DetectionDelay_UI = PTable:get_Item("Robot_DetectionDelay_UI")
 
+local lastDoCloseEnabled = 0
+local lastDOOpenEnabled = 0
+
 -- Populate the lists using loop
 for i = 0, DoCountSelection do
+
+    lastDoCloseEnabled = i -- Update the last enabled DO for closing
+    lastDOOpenEnabled = i -- Update the last enabled DO for opening
+
     Robot_DO_Close_N_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_N_UI")
     Robot_DO_Close_V_UI[i] = PTable:get_Item("Robot_DO_Close" .. i .. "_V_UI")
 
@@ -58,21 +65,13 @@ for i = 0, DoCountSelection do
 end
 
 
-local lastDoCloseEnabled = 0
-local lastDOOpenEnabled = 0
-
 for i = 0, DiCountSelection do
     
     Robot_DI_Done_N_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_N_UI")
     Robot_DI_Done_V_UI[i] = PTable:get_Item("Robot_DI_Done" .. i .. "_V_UI")
-
-    lastDoCloseEnabled = i -- Update the last enabled DO for closing
-    
-    lastDOOpenEnabled = i -- Update the last enabled DO for opening
     
     local doneNum = Robot_DI_Done_N_UI[i]
     local doneVal = Robot_DI_Done_V_UI[i]
-
     
     if (not UniqueDinNumbers[doneNum]) then -- Only add if DI channel has not been used before
         UniqueDinNumbers[doneNum] = true
