@@ -1,28 +1,22 @@
 {
-  "titleOfPage": "General IO Gripper",
+     "titleOfPage": "General IO Gripper",
   "uiGroups": [
     {
-      "name": "DoCountSelection",
-      "groupTitle": "DO Count",
+      "name": "group_Gripper",
+      "groupTitle": "Close and Open Gripper",
       "uiElements": [
         {
           "name": "DoCountSelection",
-          "elementType": "DropDown",
+          "elementType": "Dropdown",
           "elementDefinition": {
             "title": "Number of DOs",
-            "options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-            "value": 3,
+            "dropdownElementList": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"],
+            "value": 2,
             "layoutSetting": null
           }
-        }
-      ]
-    },
-    {
-      "name": "group_Gripper_IO_0",
-      "groupTitle": "Grip",
-      "uiElements": [
+        },
         {
-          "name": "CloseGripperDOSelection",
+          "name": "CloseGripperDoSelection",
           "elementType": "List",
           "elementDefinition": {
             "title": "DOs to Close Gripper",
@@ -51,48 +45,45 @@
               }
             ],
             "aliasListElementTemplate": [
-              {
-                "name": "GripControlClose_number",
-                "elementType": "Int_Input",
-                "elementDefinition": {
-                  "title": "DO #",
-                  "maxValue": 15,
-                  "minValue": 0,
-                  "value": 0,
-                  "layoutSetting": null
+              [
+                {
+                  "name": "GripControlClose_number",
+                  "elementType": "Int_Input",
+                  "elementDefinition": {
+                    "title": "DO #",
+                    "maxValue": 15,
+                    "minValue": 0,
+                    "value": 0,
+                    "layoutSetting": null
+                  }
                 }
-              },
-              {
-                "name": "GripControlClose_value",
-                "elementType": "Int_Input",
-                "elementDefinition": {
-                  "title": "Value (0: L, 1: H)",
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "value": 1,
-                  "layoutSetting": null
+              ],
+              [
+                {
+                  "name": "GripControlClose_value",
+                  "elementType": "Int_Input",
+                  "elementDefinition": {
+                    "title": "Value (0: L, 1: H)",
+                    "maxValue": 1,
+                    "minValue": 0,
+                    "value": 1,
+                    "layoutSetting": null
+                  }
                 }
-              }
+              ]
             ],
             "defaultListCount": 3,
             "isScrollable": true,
             "isEditable": true,
             "maxItemVisible": 16,
-            "value": [],
             "layoutSetting": {
               "isHorizontal": false,
               "titleMultiLine": false
             }
           }
-        }
-      ]
-    },
-    {
-      "name": "group_Gripper_IO_1",
-      "groupTitle": "Release",
-      "uiElements": [
+        },
         {
-          "name": "OpenGripperDOSelection",
+          "name": "OpenGripperDoSelection",
           "elementType": "List",
           "elementDefinition": {
             "title": "DOs to Open Gripper",
@@ -121,54 +112,41 @@
               }
             ],
             "aliasListElementTemplate": [
-              {
-                "name": "ReleaseControlOpen_number",
-                "elementType": "Int_Input",
-                "elementDefinition": {
-                  "title": "DO #",
-                  "maxValue": 15,
-                  "minValue": 0,
-                  "value": 0,
-                  "layoutSetting": null
+              [
+                {
+                  "name": "ReleaseControlOpen_number",
+                  "elementType": "Int_Input",
+                  "elementDefinition": {
+                    "title": "DO #",
+                    "maxValue": 15,
+                    "minValue": 0,
+                    "value": 0,
+                    "layoutSetting": null
+                  }
                 }
-              },
-              {
-                "name": "ReleaseControlOpen_value",
-                "elementType": "Int_Input",
-                "elementDefinition": {
-                  "title": "Value (0: L, 1: H)",
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "value": 1,
-                  "layoutSetting": null
+              ],
+              [
+                {
+                  "name": "ReleaseControlOpen_value",
+                  "elementType": "Int_Input",
+                  "elementDefinition": {
+                    "title": "Value (0: L, 1: H)",
+                    "maxValue": 1,
+                    "minValue": 0,
+                    "value": 1,
+                    "layoutSetting": null
+                  }
                 }
-              }
+              ]
             ],
             "defaultListCount": 3,
             "isScrollable": true,
             "isEditable": true,
             "maxItemVisible": 16,
-            "value": [],
             "layoutSetting": {
               "isHorizontal": false,
               "titleMultiLine": false
             }
-          }
-        }
-      ]
-    },
-    {
-      "name": "DiCountSelection",
-      "groupTitle": "DI Count",
-      "uiElements": [
-        {
-          "name": "DiCountSelection",
-          "elementType": "DropDown",
-          "elementDefinition": {
-            "title": "Number of DIs",
-            "options": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-            "value": 3,
-            "layoutSetting": null
           }
         }
       ]
@@ -196,7 +174,17 @@
           }
         },
         {
-          "name": "FeedbackDISelection",
+          "name": "DiCountSelection",
+          "elementType": "Dropdown",
+          "elementDefinition": {
+            "title": "Number of DIs",
+            "dropdownElementList": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"],
+            "value": 2,
+            "layoutSetting": null
+          }
+        },
+        {
+          "name": "FeedbackDiSelection",
           "elementType": "List",
           "elementDefinition": {
             "title": "DI Feedback Conditions",
@@ -208,7 +196,7 @@
                   "title": "DI #",
                   "maxValue": 15,
                   "minValue": 0,
-                  "value": 0,
+                  "value": "0",
                   "layoutSetting": null
                 }
               },
@@ -219,40 +207,43 @@
                   "title": "Value (0: L, 1: H)",
                   "maxValue": 1,
                   "minValue": 0,
-                  "value": 1,
+                  "value": "1",
                   "layoutSetting": null
                 }
               }
             ],
             "aliasListElementTemplate": [
-              {
-                "name": "FeedbackControl_number",
-                "elementType": "Int_Input",
-                "elementDefinition": {
-                  "title": "DI #",
-                  "maxValue": 15,
-                  "minValue": 0,
-                  "value": 0,
-                  "layoutSetting": null
+              [
+                {
+                  "name": "FeedbackControl_number",
+                  "elementType": "Int_Input",
+                  "elementDefinition": {
+                    "title": "DI #",
+                    "maxValue": 15,
+                    "minValue": 0,
+                    "value": 0,
+                    "layoutSetting": null
+                  }
                 }
-              },
-              {
-                "name": "FeedbackControl_value",
-                "elementType": "Int_Input",
-                "elementDefinition": {
-                  "title": "Value (0: L, 1: H)",
-                  "maxValue": 1,
-                  "minValue": 0,
-                  "value": 1,
-                  "layoutSetting": null
+              ],
+              [
+                {
+                  "name": "FeedbackControl_value",
+                  "elementType": "Int_Input",
+                  "elementDefinition": {
+                    "title": "Value (0: L, 1: H)",
+                    "maxValue": 1,
+                    "minValue": 0,
+                    "value": 1,
+                    "layoutSetting": null
+                  }
                 }
-              }
+              ]
             ],
             "defaultListCount": 3,
             "isScrollable": true,
             "isEditable": true,
             "maxItemVisible": 16,
-            "value": [],
             "layoutSetting": {
               "isHorizontal": false,
               "titleMultiLine": false
@@ -284,4 +275,4 @@
       ]
     }
   ]
-}
+  }

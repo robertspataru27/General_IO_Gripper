@@ -1,11 +1,19 @@
+-- On Edit
+--The following program just save and restore the user's input 
+
 CS.UnityEngine.Debug.Log('ToolUI-> Gripper OnFinishEdited triggered')
 local thisTool = CS.ToolManagerLuaInterface
 local Instance = CS.ConfigurationMenu.ConfigurationMenuLuaInterface.Instance
 local PTable = Instance.parameterTable
 local UiElement = Instance.uiElementOnEdit
+
 local UiElementType = Instance.typeOfUiElementOnEdit
+--  UiElementType = Instance.uiElementOnEdit:uiElementType <- The same as above
+--  UiElementType = Instance.uiElementOnEdit:GetType().Name <- The same as above
 
 -- Verify PTable is setup
+local ui_name = ""
+local tag_name = ""
 PTable:set_Item('Vender', 'Mantis Robotics Inc')
 if(UiElement.name ~= nil) then
 	ui_name=UiElement.name
@@ -17,172 +25,371 @@ CS.UnityEngine.Debug.Log(ui_name)
 tag_name=UiElementType..'_'..ui_name..'_values'
 CS.UnityEngine.Debug.Log(tag_name)
 
--- Get DO and DI counts
-local doCount = Instance:GetUiElementByName("DoCountSelection").value
-local diCount = Instance:GetUiElementByName("DiCountSelection").value
 
--- Get list elements
-local closeDOList = Instance:GetUiElementByName("CloseGripperDOSelection").value
-local openDOList = Instance:GetUiElementByName("OpenGripperDOSelection").value
-local feedbackDIList = Instance:GetUiElementByName("FeedbackDISelection").value
-
+-----------------------------------------Session for this page-------------------------------
 -- Create lists to hold values
 local Robot_DO_Close_N_UI = {}
 local Robot_DO_Close_V_UI = {}
+
 local Robot_DO_Open_N_UI = {}
 local Robot_DO_Open_V_UI = {}
+
 local Robot_DI_Done_N_UI = {}
 local Robot_DI_Done_V_UI = {}
 
--- Populate lists from UI
-for i = 0, doCount - 1 do
-    Robot_DO_Close_N_UI[i] = closeDOList[i][0].value -- ControlClose_number
-    Robot_DO_Close_V_UI[i] = closeDOList[i][1].value -- ControlClose_value
-    Robot_DO_Open_N_UI[i] = openDOList[i][0].value -- ControlOpen_number
-    Robot_DO_Open_V_UI[i] = openDOList[i][1].value -- ControlOpen_value
 
-    -- Update if edited
-    if ui_name == "ControlClose_number" .. i then
-        Robot_DO_Close_N_UI[i] = UiElement.value
-    elseif ui_name == "ControlClose_value" .. i then
-        Robot_DO_Close_V_UI[i] = UiElement.value
-    elseif ui_name == "ControlOpen_number" .. i then
-        Robot_DO_Open_N_UI[i] = UiElement.value
-    elseif ui_name == "ControlOpen_value" .. i then
-        Robot_DO_Open_V_UI[i] = UiElement.value
-    end
+local DoCountSelection = tonumber(Instance:GetUiElementByName("DoCountSelection").value)
+local CloseGripperDoSelection = Instance:GetUiElementByName("CloseGripperDoSelection").value
+local OpenGripperDoSelection = Instance:GetUiElementByName("OpenGripperDoSelection").value
 
-    -- Set visibility (always visible if in list)
-    closeDOList[i][0]:SetVisible(true)
-    closeDOList[i][1]:SetVisible(true)
-    openDOList[i][0]:SetVisible(true)
-    openDOList[i][1]:SetVisible(true)
-    closeDOList[i][0]:RefreshUI()
-    closeDOList[i][1]:RefreshUI()
-    openDOList[i][0]:RefreshUI()
-    openDOList[i][1]:RefreshUI()
-end
+local DiCountSelection = tonumber(Instance:GetUiElementByName("DiCountSelection").value)
+local FeedbackDISelection = Instance:GetUiElementByName("FeedbackDiSelection").value
 
-for i = 0, diCount - 1 do
-    Robot_DI_Done_N_UI[i] = feedbackDIList[i][0].value -- FeedbackFinish_number
-    Robot_DI_Done_V_UI[i] = feedbackDIList[i][1].value -- FeedbackFinish_value
-
-    if ui_name == "FeedbackFinish_number" .. i then
-        Robot_DI_Done_N_UI[i] = UiElement.value
-    elseif ui_name == "FeedbackFinish_value" .. i then
-        Robot_DI_Done_V_UI[i] = UiElement.value
-    end
-
-    feedbackDIList[i][0]:SetVisible(true)
-    feedbackDIList[i][1]:SetVisible(true)
-    feedbackDIList[i][0]:RefreshUI()
-    feedbackDIList[i][1]:RefreshUI()
-end
-
--- Handle dropdown changes
-if ui_name == "DoCountSelection" then
-    Instance:GetUiElementByName("CloseGripperDOSelection"):SetListCount(UiElement.value)
-    Instance:GetUiElementByName("OpenGripperDOSelection"):SetListCount(UiElement.value)
-elseif ui_name == "DiCountSelection" then
-    Instance:GetUiElementByName("FeedbackDISelection"):SetListCount(UiElement.value)
-end
-
--- Calculate WaitValue and WaitMask
-local WaitValue = 0
-local WaitMask = 0
-for i = 0, diCount - 1 do
-    local doneNum = Robot_DI_Done_N_UI[i]
-    local doneVal = Robot_DI_Done_V_UI[i]
-    WaitValue = WaitValue + doneVal * (2 ^ doneNum)
-    WaitMask = WaitMask + 1 * (2 ^ doneNum)
-end
-
-local Robot_DI_Done_Timeout_UI = Instance:GetUiElementByName("TimeoutValue").value
-local Robot_DetectionDelay_UI = Instance:GetUiElementByName("DetectionDelay").value
+local Robot_DI_Done_Timeout_UI=Instance:GetUiElementByName("TimeoutValue").value
+local Robot_DetectionDelay_UI=Instance:GetUiElementByName("DetectionDelay").value
 local NotEqual_UI = Instance:GetUiElementByName("NotEqual").value
 
+local WaitValue = 0
+local WaitMask = 0
 local WaitStart = 0
-local WaitLength = 16
+local WaitLenth = 16
+
+-- Need to check if DoCountSelection was modified
+-- Need to check if DiCountSelection was modified
+
+-- Make sure the number of list items in CloseGripperDoSelection and OpenGripperDoSelection match DoCountSelection
+-- Make sure the number of list items in FeedbackDISelection match DiCountSelection
+-- If not, adjust the lists accordingly
+local PTableDoCountSelection = PTable:get_Item("DoCountSelection") 
+local PTableDiCountSelection = PTable:get_Item("DiCountSelection")
+
+local CloseGripperDoSelectionCount = CloseGripperDoSelection.Count
+local OpenGripperDoSelectionCount = OpenGripperDoSelection.Count
+local FeedbackDISelectionCount = FeedbackDISelection.Count
+
+local function createDefaultElement(templateName, valueNumber, valueValue)
+    -- Default arguments
+    valueNumber = valueNumber or 0
+    valueValue = valueValue or 1
+
+    -- Create a List<ConfigurationMenuUiElement> for this row
+    local elementList = CS.System.Collections.Generic.List(CS.ConfigurationMenu.ConfigurationMenuUiElement)()
+    
+    if templateName == "CloseGripperDoSelection" then
+        -- Create DO # input element
+        local numberElement = CS.ConfigurationMenu.Int_Input()
+        numberElement.title = "DO #"
+        numberElement.maxValue = 15
+        numberElement.minValue = 0
+        numberElement.value = valueNumber
+        numberElement.layoutSetting = CS.ConfigurationMenu.Int_Input.LayoutSetting()
+        numberElement.layoutSetting.titleMultiLine = true
+        numberElement.name = "ControlClose_number"
+        elementList:Add(numberElement)
+        
+        -- Create Value input element
+        local valueElement = CS.ConfigurationMenu.Int_Input()
+        valueElement.title = "Value (0: L, 1: H)"
+        valueElement.maxValue = 1
+        valueElement.minValue = 0
+        valueElement.value = valueValue
+        valueElement.layoutSetting = CS.ConfigurationMenu.Int_Input.LayoutSetting()
+        valueElement.layoutSetting.titleMultiLine = true
+        valueElement.name = "ControlClose_value"
+        elementList:Add(valueElement)
+        
+    elseif templateName == "OpenGripperDoSelection" then
+        -- Create DO # input element
+        local numberElement = CS.ConfigurationMenu.Int_Input()
+        numberElement.title = "DO #"
+        numberElement.maxValue = 15
+        numberElement.minValue = 0
+        numberElement.value = valueNumber
+        numberElement.layoutSetting = CS.ConfigurationMenu.Int_Input.LayoutSetting()
+        numberElement.layoutSetting.titleMultiLine = true
+        numberElement.name = "ControlOpen_number"
+        elementList:Add(numberElement)
+        
+        -- Create Value input element
+        local valueElement = CS.ConfigurationMenu.Int_Input()
+        valueElement.title = "Value (0: L, 1: H)"
+        valueElement.maxValue = 1
+        valueElement.minValue = 0
+        valueElement.value = valueValue
+        valueElement.layoutSetting = CS.ConfigurationMenu.Int_Input.LayoutSetting()
+        valueElement.layoutSetting.titleMultiLine = true
+        valueElement.name = "ControlOpen_value"
+        elementList:Add(valueElement)
+        
+    elseif templateName == "FeedbackDiSelection" then
+        -- Create DI # input element
+        local numberElement = CS.ConfigurationMenu.Int_Input()
+        numberElement.title = "DI #"
+        numberElement.maxValue = 15
+        numberElement.minValue = 0
+        numberElement.value = valueNumber
+        numberElement.layoutSetting = CS.ConfigurationMenu.Int_Input.LayoutSetting()
+        numberElement.layoutSetting.titleMultiLine = true
+        numberElement.name = "FeedbackFinish_number"
+        elementList:Add(numberElement)
+        
+        -- Create Value input element
+        local valueElement = CS.ConfigurationMenu.Int_Input()
+        valueElement.title = "Value (0: L, 1: H)"
+        valueElement.maxValue = 1
+        valueElement.minValue = 0
+        valueElement.value = valueValue
+        valueElement.layoutSetting = CS.ConfigurationMenu.Int_Input.LayoutSetting()
+        valueElement.layoutSetting.titleMultiLine = true
+        valueElement.name = "FeedbackFinish_value"
+        elementList:Add(valueElement)
+    else
+        CS.UnityEngine.Debug.LogError("Unknown template name: " .. tostring(templateName))
+        return nil
+    end
+    
+    return elementList
+end
+
+
+local function adjustList(listElementName, currentCount, desiredCount)
+    local listElement = Instance:GetUiElementByName(listElementName).value
+    CS.UnityEngine.Debug.Log("List Element Value: ")
+	CS.UnityEngine.Debug.Log(listElement)
+
+    -- Add bounds checking and logging
+    CS.UnityEngine.Debug.Log(string.format("Adjusting list %s from %d to %d items", 
+        listElementName, currentCount, desiredCount))
+    
+    -- Add items if needed
+    while currentCount < desiredCount do
+		local newElement = createDefaultElement(listElementName, 0, 1)
+		listElement:Add(newElement)
+		CS.UnityEngine.Debug.Log(string.format("Adding item to list %s, current count: %d", 
+			listElementName, currentCount))
+        currentCount = currentCount + 1
+
+		if(listElementName == "CloseGripperDoSelection" ) then
+			PTable:set_Item("Robot_DO_Close" .. currentCount .. "_N_UI", 0)
+			PTable:set_Item("Robot_DO_Close" .. currentCount .. "_V_UI", 1)
+		elseif(listElementName == "OpenGripperDoSelection" ) then
+			PTable:set_Item("Robot_DO_Open" .. currentCount .. "_N_UI", 0)
+			PTable:set_Item("Robot_DO_Open" .. currentCount .. "_V_UI", 1)
+		elseif(listElementName == "FeedbackDiSelection" ) then
+			PTable:set_Item("Robot_DI_Done" .. currentCount .. "_N_UI", 0)
+			PTable:set_Item("Robot_DI_Done" .. currentCount .. "_V_UI", 1)
+		end
+    end
+    
+    -- Remove items if needed - with safety check
+    while currentCount > desiredCount and listElement.Count > 0 do
+        local indexToRemove = listElement.Count - 1
+        if indexToRemove >= 0 and indexToRemove < listElement.Count then
+            listElement:RemoveAt(indexToRemove)
+			if(listElementName == "CloseGripperDoSelection" ) then
+				PTable:Remove("Robot_DO_Close" .. indexToRemove .."_N_UI")
+				PTable:Remove("Robot_DO_Close" .. indexToRemove .."_V_UI")
+			elseif(listElementName == "OpenGripperDoSelection" ) then
+				PTable:Remove("Robot_DO_Open" .. indexToRemove .."_N_UI")
+				PTable:Remove("Robot_DO_Open" .. indexToRemove .."_V_UI")
+			elseif(listElementName == "FeedbackDiSelection" ) then
+				PTable:Remove("Robot_DI_Done" .. indexToRemove .."_N_UI")
+				PTable:Remove("Robot_DI_Done" .. indexToRemove .."_V_UI")
+			end
+			CS.UnityEngine.Debug.Log(string.format("Removed item at index %d from list %s", 
+				indexToRemove, listElementName))
+        else
+            CS.UnityEngine.Debug.Log(string.format("Invalid index %d for list with count %d", 
+                indexToRemove, listElement.Count))
+            break
+        end
+        currentCount = currentCount - 1
+    end
+    
+    -- Verify final count
+    CS.UnityEngine.Debug.Log(string.format("Final list count: %d", listElement.Count))
+end
+
+if (DoCountSelection ~= PTableDoCountSelection or 
+DoCountSelection ~= CloseGripperDoSelectionCount or 
+DoCountSelection ~= OpenGripperDoSelectionCount) then
+	-- PTable will be updated later for the count
+	-- Need to add a new list item to CloseGripperDoSelection and OpenGripperDoSelection
+	adjustList("CloseGripperDoSelection", PTableDoCountSelection, DoCountSelection)
+	adjustList("OpenGripperDoSelection", PTableDoCountSelection, DoCountSelection)
+	Instance:GetUiElementByName("OpenGripperDoSelection"):RefreshUI()
+	Instance:GetUiElementByName("CloseGripperDoSelection"):RefreshUI()
+end
+
+if (DiCountSelection ~= PTableDiCountSelection or DiCountSelection ~= FeedbackDISelectionCount) then
+	-- PTable will be updated later for the count
+	-- Need to add a new list item to FeedbackDISelection
+	adjustList("FeedbackDiSelection", PTableDiCountSelection, DiCountSelection)
+	Instance:GetUiElementByName("FeedbackDiSelection"):RefreshUI()
+end
+
+for i = 0, DoCountSelection do
+    local closeSlot = CloseGripperDoSelection[i]
+    local openSlot = OpenGripperDoSelection[i]
+    local closeNum = 0
+    local closeVal = 0
+    local openNum = 0
+    local openVal = 0
+
+    if closeSlot then
+        closeNum = closeSlot[0].value or 0
+        closeVal = closeSlot[1].value or 0
+    end
+
+    Robot_DO_Close_N_UI[i] = closeNum
+    Robot_DO_Close_V_UI[i] = closeVal
+    
+    if openSlot then
+        openNum = openSlot[0].value or 0
+        openVal = openSlot[1].value or 0
+    end
+
+    Robot_DO_Open_N_UI[i] = openNum
+    Robot_DO_Open_V_UI[i] = openVal
+    
+end
+
+for i = 0, DiCountSelection do
+    local doneNum = 0
+    local doneVal = 0
+    local feedbackSlot = FeedbackDISelection[i]
+    if feedbackSlot then
+        doneNum = feedbackSlot[0].value or 0
+        doneVal = feedbackSlot[1].value or 0
+    end
+
+    WaitValue = WaitValue + doneVal * 2 ^ doneNum;
+    WaitMask = WaitMask + 1 * 2 ^ doneNum;
+
+    Robot_DI_Done_N_UI[i] = doneNum
+    Robot_DI_Done_V_UI[i] = doneVal;
+    
+end
 
 function WriteToPTableForRobotCodeGen()
-    for i = 0, doCount - 1 do
-        PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i])
-        PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i])
-        PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", Robot_DO_Open_N_UI[i])
-        PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", Robot_DO_Open_V_UI[i])
+	for i = 0, DoCountSelection do
+		PTable:set_Item("Robot_DO_Close" .. i .. "_N_UI", Robot_DO_Close_N_UI[i]);
+		PTable:set_Item("Robot_DO_Close" .. i .. "_V_UI", Robot_DO_Close_V_UI[i]);
+
+		PTable:set_Item("Robot_DO_Open" .. i .. "_N_UI", Robot_DO_Open_N_UI[i]);
+		PTable:set_Item("Robot_DO_Open" .. i .. "_V_UI", Robot_DO_Open_V_UI[i]);
+	end
+
+    for i = 0, DiCountSelection do
+        PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", Robot_DI_Done_N_UI[i]);
+		PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i]);
     end
 
-    for i = 0, diCount - 1 do
-        PTable:set_Item("Robot_DI_Done" .. i .. "_N_UI", Robot_DI_Done_N_UI[i])
-        PTable:set_Item("Robot_DI_Done" .. i .. "_V_UI", Robot_DI_Done_V_UI[i])
-    end
+	-- Comment these out eventually
+	PTable:set_Item("CloseGripperDoSelection", CloseGripperDoSelection)
+	PTable:set_Item("OpenGripperDoSelection", OpenGripperDoSelection)
+	PTable:set_Item("FeedbackDISelection", FeedbackDISelection)
 
-	PTable:set_Item("DoCount", doCount)
-	PTable:set_Item("DiCount", diCount)
-    PTable:set_Item("Robot_DI_Done_Timeout_UI", Robot_DI_Done_Timeout_UI)
-    PTable:set_Item("Robot_DetectionDelay_UI", Robot_DetectionDelay_UI)
-    PTable:set_Item("NotEqual_UI", NotEqual_UI)
-    PTable:set_Item("WaitValue", WaitValue)
-    PTable:set_Item("WaitMask", WaitMask)
-    PTable:set_Item("WaitStart", WaitStart)
-    PTable:set_Item("WaitLength", WaitLength)
+	PTable:set_Item("DoCountSelection", DoCountSelection)
+	PTable:set_Item("DiCountSelection", DiCountSelection)
+	PTable:set_Item("Robot_Di_Done_Timeout_UI", Robot_DI_Done_Timeout_UI);
+	PTable:set_Item("Robot_DetectionDelay_UI", Robot_DetectionDelay_UI);
+	PTable:set_Item("NotEqual_UI", NotEqual_UI);
+	PTable:set_Item("WaitValue", WaitValue);
+	PTable:set_Item("WaitMask", WaitMask);
+	PTable:set_Item("WaitStart", WaitStart);
+	PTable:set_Item("WaitLength", WaitLenth);
 end
 
--- Build DOUT commands
+
+-- Build strings for all 16 DOUT commands for closing and opening the gripper
 local closeCommands = ""
 local openCommands = ""
-for i = 0, doCount - 1 do
-    closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", Robot_DO_Close_N_UI[i], Robot_DO_Close_V_UI[i])
-    openCommands = openCommands .. string.format("DOUT(%d,%d);\n", Robot_DO_Open_N_UI[i], Robot_DO_Open_V_UI[i])
+for i = 0, DoCountSelection do
+	local closeNum = Robot_DO_Close_N_UI[i]
+	local closeVal = Robot_DO_Close_V_UI[i]
+	closeCommands = closeCommands .. string.format("DOUT(%d,%d);\n", closeNum, closeVal)
+	
+	local openNum = Robot_DO_Open_N_UI[i]
+	local openVal = Robot_DO_Open_V_UI[i]
+	openCommands = openCommands .. string.format("DOUT(%d,%d);\n", openNum, openVal)
+	
 end
 
-local globalToolTcps = thisTool.GetSelectedToolTCPs()
+
+local globalToolTcps = thisTool.GetSelectedToolTCPs();
 for key, value in pairs(globalToolTcps) do
-    thisTool.SetActionToActuateTool(value.TCPNumber, [[
-        WaitSS();
+	
+    thisTool.SetActionToActuateTool( value.TCPNumber, [[
+		WaitSS();
         ]] .. closeCommands .. [[
         WAIT(]] .. Robot_DetectionDelay_UI .. [[);
-        WDIN(]] .. WaitStart .. [[,]] .. WaitValue .. [[,L=]] .. WaitLength .. [[,MASK=]] .. WaitMask .. [[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
+        WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLenth..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
     ]])
-    thisTool.SetActionToDeactuateTool(value.TCPNumber, [[
-        WaitSS();
+    thisTool.SetActionToDeactuateTool( value.TCPNumber, [[
+		WaitSS();
         ]] .. openCommands .. [[
         WAIT(]] .. Robot_DetectionDelay_UI .. [[);
-        WDIN(]] .. WaitStart .. [[,]] .. WaitValue .. [[,L=]] .. WaitLength .. [[,MASK=]] .. WaitMask .. [[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
+        WDIN( ]]..WaitStart..[[,]]..WaitValue..[[,L=]]..WaitLenth..[[,MASK=]]..WaitMask..[[,T=]] .. Robot_DI_Done_Timeout_UI .. [[);
     ]])
 end
 
--- Save UI element values to PTable
-if UiElementType == "CheckBox" or
-   UiElementType == "Text_Display" or
-   UiElementType == "Text_Input" or
-   UiElementType == "Float_Input" or
-   UiElementType == "Int_Input" or
-   UiElementType == "Digital_Output" or
-   UiElementType == "Digital_Input" or
-   UiElementType == "Dropdown" then
-    PTable:set_Item(tag_name, UiElement.value)
+-- [CheckBox] [Text Display] [Text Input] [Int Input]
+if (UiElementType == "CheckBox") or 
+     (UiElementType == "Text_Display") or 
+       (UiElementType == "Text_Input") or  
+         (UiElementType == "Float_Input") or  
+           (UiElementType == "Int_Input") or
+		     (UiElementType == "Digital_Output") or 
+			   (UiElementType == "Digital_Input") or
+			     (UiElementType == "Dropdown") then
+	PTable:set_Item(tag_name, UiElement.value) --save to PTable
+	
+-- [Transform] [Joint]
+elseif (UiElementType == "Transform") or 
+     (UiElementType == "Joint") then 
+	current_values={}
+	for i=1,6 do
+		current_values[i]=UiElement.value[i-1] --write data to temp array
+	end
+	commaSeperatedValues = table.concat(current_values, ', ')
+	PTable:set_Item(tag_name, commaSeperatedValues)
+	
+-- Project Tool
+elseif (UiElementType == "ProjectTool") then
+	current_values={}
+	for i=1,6 do
+		current_values[i]=UiElement.value.transform[i-1] --write data to temp array
+	end
+	commaSeperatedValues = table.concat(current_values, ', ')
+	
+	PTable:set_Item(tag_name..'_transform', commaSeperatedValues) --save to PTable
+    PTable:set_Item(tag_name..'_toolName', UiElement.value.toolName)
+	PTable:set_Item(tag_name..'_tcpNumber', UiElement.value.tcpNumber)
+	
 
-elseif UiElementType == "Transform" or UiElementType == "Joint" then
-    local current_values = {}
-    for i = 1, 6 do
-        current_values[i] = UiElement.value[i - 1]
-    end
-    local commaSeperatedValues = table.concat(current_values, ', ')
-    PTable:set_Item(tag_name, commaSeperatedValues)
+-- [TODO] Add List Type (List<List<ConfigurationMenuUiElement>> value)
+-- Maybe add some more logic to deal with List types?
+elseif (UiElementType == "List") then
+	PTable:set_Item(tag_name, UiElement.value)
+	-- error("type: " .. type(UiElement)) --> userData
+	-- error("type: " .. type(UiElement.value)) --> userData
+	-- for keyLayer1, subList in pairs(UiElement.value) do --> list<>
+		-- error("type: " .. type(mainList))	--> userData  (https://www.lua.org/pil/28.1.html)
+		-- for keyLayer2, element in pairs(subList) do 
+			-- error("Console>> " .. element.value)
+			-- error("Console>> " .. element:GetType().Name)
+			-- element:GetType().Name
+			-- PTableKey = tag_name .. "_" .. keyLayer1 .. '_' .. keyLayer2 .. '_value' 
+			-- CS.UnityEngine.Debug.Log("Console>> " .. PTableKey)
+		-- end
+		-- subTagName = tag_name .. '[' .. key1 .. '][' ..key2..']'
+		-- PTable:set_Item(subTagName, uiSubElement.value)
+	-- end
 
-elseif UiElementType == "ProjectTool" then
-    local current_values = {}
-    for i = 1, 6 do
-        current_values[i] = UiElement.value.transform[i - 1]
-    end
-    local commaSeperatedValues = table.concat(current_values, ', ')
-    PTable:set_Item(tag_name .. '_transform', commaSeperatedValues)
-    PTable:set_Item(tag_name .. '_toolName', UiElement.value.toolName)
-    PTable:set_Item(tag_name .. '_tcpNumber', UiElement.value.tcpNumber)
-
-elseif UiElementType == "List" then
-    PTable:set_Item(tag_name, UiElement.value)
+else
+	CS.UnityEngine.Debug.Log('Type not yet configured (OnEdit): ' .. UiElementType)
+	--error("Unsetting type")
 end
 
-WriteToPTableForRobotCodeGen()
+WriteToPTableForRobotCodeGen();
